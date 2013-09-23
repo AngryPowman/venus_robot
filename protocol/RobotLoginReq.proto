@@ -1,0 +1,6 @@
+import "MessageBase.proto";
+package Protocol;
+message RobotLoginReq
+{
+	required string account = 1;
+}

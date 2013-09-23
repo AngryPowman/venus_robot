@@ -1,0 +1,5 @@
+package Protocol;
+message MessageBase
+{
+    required int32 opcode = 1;
+}

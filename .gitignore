@@ -11,3 +11,5 @@
 *.lai
 *.la
 *.a
+/src/RobotWatchman/RobotWatchman/bin
+/src/RobotWatchman/RobotWatchman/obj
