@@ -7,21 +7,21 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from: RobotLoginReq.proto
+// Generated from: QQLoginCaptchaNotify.proto
 // Note: requires additional types generated from: MessageBase.proto
 namespace Protocol
 {
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RobotLoginReq")]
-  public partial class RobotLoginReq : global::ProtoBuf.IExtensible
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"QQLoginChaptchaRsp")]
+  public partial class QQLoginChaptchaRsp : global::ProtoBuf.IExtensible
   {
-    public RobotLoginReq() {}
+    public QQLoginChaptchaRsp() {}
     
-    private string _verify_key;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"verify_key", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string verify_key
+    private byte[] _captcha_data;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"captcha_data", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public byte[] captcha_data
     {
-      get { return _verify_key; }
-      set { _verify_key = value; }
+      get { return _captcha_data; }
+      set { _captcha_data = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)

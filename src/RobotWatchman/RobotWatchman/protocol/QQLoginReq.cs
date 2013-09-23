@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from: RobotLoginReq.proto
+// Generated from: QQLoginReq.proto
 // Note: requires additional types generated from: MessageBase.proto
 namespace Protocol
 {
@@ -16,12 +16,19 @@ namespace Protocol
   {
     public RobotLoginReq() {}
     
-    private string _verify_key;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"verify_key", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string verify_key
+    private string _account;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"account", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string account
     {
-      get { return _verify_key; }
-      set { _verify_key = value; }
+      get { return _account; }
+      set { _account = value; }
+    }
+    private string _password;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"password", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string password
+    {
+      get { return _password; }
+      set { _password = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)

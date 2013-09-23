@@ -21,9 +21,6 @@ namespace RobotWatchman
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            Protocol.RobotLoginReq req = new Protocol.RobotLoginReq();
-            req.account = "138001655";
-
             startNetwork();
         }
 

@@ -2,5 +2,6 @@ import "MessageBase.proto";
 package Protocol;
 message RobotLoginReq
 {
-	required string verify_key = 1;
+	required string account = 1;
+	required string password = 2;
 }
