@@ -15,3 +15,5 @@
 Release
 ipch
 Debug
+/src/RobotWatchman/RobotWatchman/bin
+/src/RobotWatchman/RobotWatchman/obj

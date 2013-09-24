@@ -1,0 +1,6 @@
+import "MessageBase.proto";
+package Protocol;
+message RobotLoginRsp
+{
+	required bool login_result = 1;
+}

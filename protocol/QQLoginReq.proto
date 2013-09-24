@@ -1,0 +1,7 @@
+import "MessageBase.proto";
+package Protocol;
+message QQLoginReq
+{
+	required string account = 1;
+	required string password = 2;
+}

@@ -1,0 +1,6 @@
+import "MessageBase.proto";
+package Protocol;
+message QQLoginCaptchaConfirm
+{
+	required string captcha_code = 1;
+}

@@ -1,0 +1,6 @@
+import "MessageBase.proto";
+package Protocol;
+message QQLoginChaptchaNotify
+{
+	required bytes captcha_data = 1;
+}
