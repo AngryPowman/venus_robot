@@ -11,10 +11,10 @@
 // Note: requires additional types generated from: MessageBase.proto
 namespace Protocol
 {
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"QQLoginChaptchaRsp")]
-  public partial class QQLoginChaptchaRsp : global::ProtoBuf.IExtensible
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"QQLoginChaptchaNotify")]
+  public partial class QQLoginChaptchaNotify : global::ProtoBuf.IExtensible
   {
-    public QQLoginChaptchaRsp() {}
+    public QQLoginChaptchaNotify() {}
     
     private byte[] _captcha_data;
     [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"captcha_data", DataFormat = global::ProtoBuf.DataFormat.Default)]

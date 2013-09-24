@@ -11,10 +11,10 @@
 // Note: requires additional types generated from: MessageBase.proto
 namespace Protocol
 {
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RobotLoginReq")]
-  public partial class RobotLoginReq : global::ProtoBuf.IExtensible
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"QQLoginReq")]
+  public partial class QQLoginReq : global::ProtoBuf.IExtensible
   {
-    public RobotLoginReq() {}
+    public QQLoginReq() {}
     
     private string _account;
     [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"account", DataFormat = global::ProtoBuf.DataFormat.Default)]
