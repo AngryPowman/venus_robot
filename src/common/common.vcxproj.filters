@@ -22,6 +22,9 @@
     <Filter Include="network\common\asio_error">
       <UniqueIdentifier>{c7047036-3308-4fd4-9458-b60cd0f8b45f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="protocol\protobuf">
+      <UniqueIdentifier>{d6578cf9-def7-49ed-bf4f-2c85d809ce00}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
@@ -72,6 +75,27 @@
     <ClInclude Include="network_common.h">
       <Filter>network\common</Filter>
     </ClInclude>
+    <ClInclude Include="protocol\QQLoginCaptchaConfirm.pb.h">
+      <Filter>protocol\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\QQLoginCaptchaNotify.pb.h">
+      <Filter>protocol\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\QQLoginReq.pb.h">
+      <Filter>protocol\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\RobotLoginReq.pb.h">
+      <Filter>protocol\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\RobotLoginRsp.pb.h">
+      <Filter>protocol\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\MessageBase.pb.h">
+      <Filter>protocol\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="proto.h">
+      <Filter>protocol</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -91,6 +115,24 @@
     </ClCompile>
     <ClCompile Include="tcp_client.cpp">
       <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\QQLoginCaptchaConfirm.pb.cc">
+      <Filter>protocol\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\QQLoginCaptchaNotify.pb.cc">
+      <Filter>protocol\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\QQLoginReq.pb.cc">
+      <Filter>protocol\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\RobotLoginReq.pb.cc">
+      <Filter>protocol\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\RobotLoginRsp.pb.cc">
+      <Filter>protocol\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\MessageBase.pb.cc">
+      <Filter>protocol\protobuf</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

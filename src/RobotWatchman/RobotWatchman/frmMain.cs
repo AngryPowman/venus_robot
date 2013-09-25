@@ -73,20 +73,23 @@ namespace RobotWatchman
 
                 // Serialize body data first
                 MemoryStream streamBody = new MemoryStream();
-                BinaryFormatter protoDataFormatter = new BinaryFormatter();
-                protoDataFormatter.Serialize(streamBody, robotLoginReq);
+                //BinaryFormatter protoDataFormatter = new BinaryFormatter();
+                //protoDataFormatter.Serialize(streamBody, messageBase);
+
+                Serializer.SerializeWithLengthPrefix(streamBody, robotLoginReq, PrefixStyle.None);
                 UInt32 bodyLen = (uint)streamBody.Length;
 
                 // Serialize header data and body
                 const int headerLen = 8;
                 MemoryStream streamPacket = new MemoryStream();
                 BinaryWriter writer = new BinaryWriter(streamPacket);
-                writer.Write(headerLen + 5);
+                writer.Write(headerLen + bodyLen);
                 writer.Write(10001);
-                writer.Write("Hello");
-                //writer.Write(streamBody.GetBuffer());
+                writer.Write(streamBody.ToArray());
 
-                socket.BeginSend(streamPacket.ToArray(), 0, (int)streamPacket.Length, 0, new AsyncCallback(onSendCompleted), socket);
+                int packetLen = (int)streamPacket.Length;
+
+                socket.BeginSend(streamPacket.ToArray(), 0, packetLen, 0, new AsyncCallback(onSendCompleted), socket);
             }
         }
 

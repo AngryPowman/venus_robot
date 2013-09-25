@@ -179,8 +179,10 @@ void TcpConnection::handleRead(const boost::system::error_code& error, std::size
     {
         for (size_t i = 0; i < _prepare_packet_list.size(); ++i)
         {
-            const uint32_t& opcode = _prepare_packet_list[i].opcode;
-            const google::protobuf::Message* message = _prepare_packet_list[i].protoMessage();
+            const ServerPacket& packet = _prepare_packet_list[i];
+            const uint32_t& opcode = packet.opcode;
+            const google::protobuf::Message* message 
+                = reinterpret_cast<const google::protobuf::Message*>(packet.message);
 
             std::cout << "Network Message : [opcode = " <<  opcode << "]" << std::endl;
 
@@ -241,6 +243,16 @@ bool TcpConnection::append_buffer_fragment(const ByteBufferPtr& buffer)
         {
             ServerPacket* packet = 
                 (ServerPacket*)(reinterpret_cast<const ServerPacket*>(_buffer.buffer()));
+
+            uint32 opcode = 0;
+            _buffer >> opcode;
+
+            size_t bodyLen = packet_len - ServerPacket::HEADER_LENGTH;
+            byte* messageBody = new byte[bodyLen];
+            _buffer.read(messageBody, bodyLen);
+            
+            Protocol::RobotLoginReq message;
+            bool parseResult = message.ParseFromArray(messageBody, bodyLen);
 
             _prepare_packet_list.push_back(*packet);
             _buffer.clear();
