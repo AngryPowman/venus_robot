@@ -12,9 +12,10 @@
 *.la
 *.a
 *.sdf
-Release
-ipch
-Debug
 /src/RobotWatchman/RobotWatchman/bin
 /src/RobotWatchman/RobotWatchman/obj
 /src/*.opensdf
+/src/ipch
+/src/Debug
+/src/center_server/Debug
+/src/common/Debug
