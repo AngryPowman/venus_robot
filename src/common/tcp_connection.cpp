@@ -226,10 +226,10 @@ bool TcpConnection::append_buffer_fragment(const ByteBufferPtr& buffer)
         _buffer >> packet_len;
 
         //数据包长度大于最大接收长度视为非法，干掉
-        if (packet_len >= MAX_RECV_LEN)
+        if (packet_len >= MAX_RECV_LEN || buffer->size() >= MAX_RECV_LEN)
         {
             std::cout << "Warning: Read packet header length " << packet_len << " bytes (which is too large) on peer socket. (Invalid Packet?)" << std::endl;
-            shutdown();
+            shutdown(); 
             return false;
         }
 
@@ -251,8 +251,9 @@ bool TcpConnection::append_buffer_fragment(const ByteBufferPtr& buffer)
                 (ServerPacket*)(reinterpret_cast<const ServerPacket*>(_buffer.buffer()));
 
             _prepare_packet_list.push_back(*packet);
-            _buffer.erase(0, packet_len);
+            _buffer.erase(0, buffer->size());
             _buffer.set_rpos(0);
+            _buffer.set_wpos(0);
         }
     }
 

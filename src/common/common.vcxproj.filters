@@ -22,9 +22,6 @@
     <Filter Include="network\common\asio_error">
       <UniqueIdentifier>{c7047036-3308-4fd4-9458-b60cd0f8b45f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="network\http">
-      <UniqueIdentifier>{6fd08168-06fb-400f-8b30-0780d929a22c}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">

@@ -84,10 +84,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="asio_service_deamon.h" />
+    <ClInclude Include="session.h" />
+    <ClInclude Include="io_dispatcher.h" />
+    <ClInclude Include="opcodes_handler.h" />
+    <ClInclude Include="service_deamon.h" />
+    <ClInclude Include="session_manager.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="asio_service_deamon.cpp" />
     <ClCompile Include="center_server.cpp" />
+    <ClCompile Include="opcodes_handler.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

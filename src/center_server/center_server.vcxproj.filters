@@ -4,12 +4,20 @@
     <ClInclude Include="stdafx.h">
       <Filter>main</Filter>
     </ClInclude>
+    <ClInclude Include="asio_service_deamon.h" />
+    <ClInclude Include="io_dispatcher.h" />
+    <ClInclude Include="opcodes_handler.h" />
+    <ClInclude Include="service_deamon.h" />
+    <ClInclude Include="session_manager.h" />
+    <ClInclude Include="session.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="center_server.cpp" />
     <ClCompile Include="stdafx.cpp">
       <Filter>main</Filter>
     </ClCompile>
+    <ClCompile Include="opcodes_handler.cpp" />
+    <ClCompile Include="asio_service_deamon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="main">

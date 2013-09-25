@@ -1,5 +1,5 @@
-#ifndef COMMON_H_
-#define COMMON_H_
+#ifndef __COMMON_H_
+#define __COMMON_H_
 
 #ifdef _WIN32
 	#define SERVER_DECL __declspec(dllexport)

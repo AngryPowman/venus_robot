@@ -1,5 +1,4 @@
-﻿using ProtoBuf;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,8 +8,11 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
+using System.Diagnostics;
+using ProtoBuf;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace RobotWatchman
 {
@@ -25,7 +27,6 @@ namespace RobotWatchman
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            Protocol.RobotLoginReq req = new Protocol.RobotLoginReq();
         }
 
         private void addLog(string log)
@@ -66,14 +67,26 @@ namespace RobotWatchman
             Socket socket = (Socket)result.AsyncState;
             if (socket.Connected)
             { 
-                //发送机器人登录请求
+                // Connect to robot server
                 Protocol.RobotLoginReq robotLoginReq = new Protocol.RobotLoginReq();
                 robotLoginReq.verify_key = txtRobotLoginVerifyKey.Text;
 
-                MemoryStream stream = new MemoryStream();
-                Serializer.Serialize(stream, robotLoginReq);
+                // Serialize body data first
+                MemoryStream streamBody = new MemoryStream();
+                BinaryFormatter protoDataFormatter = new BinaryFormatter();
+                protoDataFormatter.Serialize(streamBody, robotLoginReq);
+                UInt32 bodyLen = (uint)streamBody.Length;
 
-                socket.BeginSend(stream.ToArray(), 0, (int)stream.Length, 0, new AsyncCallback(onSendCompleted), socket);
+                // Serialize header data and body
+                const int headerLen = 8;
+                MemoryStream streamPacket = new MemoryStream();
+                BinaryWriter writer = new BinaryWriter(streamPacket);
+                writer.Write(headerLen + 5);
+                writer.Write(10001);
+                writer.Write("Hello");
+                //writer.Write(streamBody.GetBuffer());
+
+                socket.BeginSend(streamPacket.ToArray(), 0, (int)streamPacket.Length, 0, new AsyncCallback(onSendCompleted), socket);
             }
         }
 
@@ -88,8 +101,8 @@ namespace RobotWatchman
                 int bytesSent = handler.EndSend(ar);
 
                 Console.WriteLine("Sent {0} bytes to server.", bytesSent);
-                handler.Shutdown(SocketShutdown.Both);
-                handler.Close();
+                //handler.Shutdown(SocketShutdown.Both);
+                //handler.Close();
             }
             catch (Exception e)
             {

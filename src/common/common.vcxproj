@@ -47,7 +47,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions);BOOST_ALL_NO_LIB</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../../3rdparty;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\3rdparty;</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -67,7 +67,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions);BOOST_ALL_NO_LIB</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../../3rdparty;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\3rdparty;</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>

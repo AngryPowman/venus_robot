@@ -241,7 +241,7 @@
             this.txtRobotLoginServer.Name = "txtRobotLoginServer";
             this.txtRobotLoginServer.Size = new System.Drawing.Size(122, 21);
             this.txtRobotLoginServer.TabIndex = 3;
-            this.txtRobotLoginServer.Text = "210.209.86.171";
+            this.txtRobotLoginServer.Text = "127.0.0.1";
             // 
             // label4
             // 
