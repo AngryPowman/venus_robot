@@ -67,4 +67,8 @@ typedef unsigned long long uint64;
 #define SAFE_DELETE(x)	if (nullptr != (x)) { delete (x); (x) = nullptr; }
 #endif
 
+#ifndef SAFE_DELETE_ARR
+#define SAFE_DELETE_ARR(x)	if (nullptr != (x)) { delete [] (x); (x) = nullptr; }
+#endif
+
 #endif

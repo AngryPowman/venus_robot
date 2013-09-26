@@ -36,7 +36,10 @@ namespace RobotWatchman
 
         private void btnRobotLogin_Click(object sender, EventArgs e)
         {
-            connectRobotServer(txtRobotLoginServer.Text, Convert.ToUInt16(txtRobotLoginPort.Text));
+            //for (int i = 0; i < 300; i++)
+            //{
+                connectRobotServer(txtRobotLoginServer.Text, Convert.ToUInt16(txtRobotLoginPort.Text));
+            //}
         }
 
         /// <summary>
@@ -49,7 +52,14 @@ namespace RobotWatchman
             addLog("正在连接到机器人服务器 " + ip + ":" + port.ToString() + "...");
 
             //连接到服务器
+            if (_clientSocket != null && _clientSocket.Connected)
+            {
+                _clientSocket.Shutdown(SocketShutdown.Both);
+                _clientSocket.Close();
+            }
+
             _clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
             IAsyncResult connectResult =
                 _clientSocket.BeginConnect(
                 IPAddress.Parse(ip),
@@ -66,7 +76,9 @@ namespace RobotWatchman
         {
             Socket socket = (Socket)result.AsyncState;
             if (socket.Connected)
-            { 
+            {
+                socket.EndConnect(result);
+
                 // Connect to robot server
                 Protocol.RobotLoginReq robotLoginReq = new Protocol.RobotLoginReq();
                 robotLoginReq.verify_key = txtRobotLoginVerifyKey.Text;
@@ -98,10 +110,10 @@ namespace RobotWatchman
             try
             {
                 // Retrieve the socket from the state object.     
-                Socket handler = (Socket)ar.AsyncState;
+                Socket socket = (Socket)ar.AsyncState;
 
                 // Complete sending the data to the remote device.     
-                int bytesSent = handler.EndSend(ar);
+                int bytesSent = socket.EndSend(ar);
 
                 Console.WriteLine("Sent {0} bytes to server.", bytesSent);
                 //handler.Shutdown(SocketShutdown.Both);

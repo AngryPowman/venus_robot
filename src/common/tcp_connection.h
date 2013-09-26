@@ -60,11 +60,10 @@ private:
         _prepare_packet_list.clear();
     }
 
-    ByteBuffer _buffer;
-    ServerPacket* _integrity_packet;
-    std::vector<ServerPacketPtr> _prepare_packet_list;
 
 private:
+    ByteBuffer _buffer;
+    std::vector<ServerPacket> _prepare_packet_list;
     tcp::socket _socket;
     WriteCompletedCallback _writeCompletedCallback;
     ReadCompletedCallback _readComplectedCallback;
