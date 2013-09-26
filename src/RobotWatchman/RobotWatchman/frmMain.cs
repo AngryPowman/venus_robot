@@ -96,7 +96,7 @@ namespace RobotWatchman
                 MemoryStream streamPacket = new MemoryStream();
                 BinaryWriter writer = new BinaryWriter(streamPacket);
                 writer.Write(headerLen + bodyLen);
-                writer.Write(10001);
+                writer.Write(10000);
                 writer.Write(streamBody.ToArray());
 
                 int packetLen = (int)streamPacket.Length;

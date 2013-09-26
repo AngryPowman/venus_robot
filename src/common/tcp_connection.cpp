@@ -176,30 +176,96 @@ void TcpConnection::handleRead(const boost::system::error_code& error, std::size
     }
     
     this->read();
+
+    size_t bodyLen = 0;
+
     ByteBufferPtr read_buffer(new ByteBuffer(_recvBuffer.data(), bytes_transferred));
-    if (append_buffer_fragment(read_buffer))
+    _buffer.append(*read_buffer);
+
+    _buffer.set_rpos(0);
+    while (_buffer.size() >= sizeof(ServerPacket))
     {
-        for (size_t i = 0; i < _prepare_packet_list.size(); ++i)
+        size_t packet_len = 0;
+        _buffer >> packet_len;
+
+        //数据包长度大于最大接收长度视为非法，干掉
+        if (packet_len >= MAX_RECV_LEN || read_buffer->size() >= MAX_RECV_LEN)
         {
-            const ServerPacket& packet = _prepare_packet_list[i];
-            const uint32_t& opcode = packet.opcode;
-            const google::protobuf::Message* message 
-                = reinterpret_cast<const google::protobuf::Message*>(packet.message);
-
-            std::cout << "Network Message : [opcode = " <<  opcode << "]" << std::endl;
-
-            if (message != NULL && _readComplectedCallback)
-            {
-                _readComplectedCallback(shared_from_this(), opcode, *message, bytes_transferred);
-            }
-            else
-            {
-                std::cout << "Warnning : empty proto message!" << std::endl;
-            }
+            std::cout << "Warning: Read packet header length " << packet_len << " bytes (which is too large) on peer socket. (Invalid Packet?)" << std::endl;
+            shutdown();
+            return;
         }
 
-        _prepare_packet_list.clear();
+        if (_buffer.size() < packet_len)
+        {
+            return;
+        }
+        else if (_buffer.size() >= packet_len)
+        {
+            //ServerPacket* packet = (ServerPacket*)reinterpret_cast<const ServerPacket*>(_buffer.buffer());
+
+            uint32 opcode = 0;
+            _buffer >> opcode;
+
+            ServerPacket packet;
+            packet.len = packet_len;
+            packet.opcode = opcode;
+
+            //跳过数据头的8字节
+            _buffer.set_rpos(ServerPacket::HEADER_LENGTH);
+
+            //取得body长度
+            bodyLen = packet_len - ServerPacket::HEADER_LENGTH;
+            packet.message = new byte[bodyLen];
+            _buffer.read(packet.message, bodyLen);
+
+            _prepare_packet_list.push_back(packet);
+            _buffer.erase(0, packet_len);
+            //_buffer.clear();
+            _buffer.set_rpos(0);
+            _buffer.set_wpos(0);
+        }
+        /*else
+        {
+            ServerPacket* packet = (ServerPacket*)reinterpret_cast<const ServerPacket*>(_buffer.buffer());
+
+            //跳过数据头的8字节
+            _buffer.set_rpos(ServerPacket::HEADER_LENGTH);
+
+            //取得body长度
+            size_t bodyLen = packet_len - ServerPacket::HEADER_LENGTH;
+            packet->message = new byte[bodyLen];
+            _buffer.read(packet->message, bodyLen);
+
+            _prepare_packet_list.push_back(*packet);
+            _buffer.erase(0, read_buffer->size());
+            _buffer.set_rpos(0);
+            _buffer.set_wpos(0);
+        }*/
     }
+
+    for (size_t i = 0; i < _prepare_packet_list.size(); ++i)
+    {
+        const ServerPacket& packet = _prepare_packet_list[i];
+        const uint32_t& opcode = packet.opcode;
+        google::protobuf::Message* message
+            = reinterpret_cast<google::protobuf::Message*>(packet.message);
+
+        message->ParseFromArray(packet.message, bodyLen);
+        std::cout << "Network Message : [opcode = " <<  opcode << "]" << std::endl;
+
+        if (message != NULL && _readComplectedCallback)
+        {
+            _readComplectedCallback(shared_from_this(), opcode, *message, bytes_transferred);
+        }
+        else
+        {
+            std::cout << "Warnning : empty proto message!" << std::endl;
+        }
+    }
+
+    _prepare_packet_list.clear();
+
 }
 
 void TcpConnection::onError(const boost::system::error_code& error)

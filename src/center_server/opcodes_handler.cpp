@@ -9,5 +9,5 @@
 
 OpcodeTable::OpcodeTable()
 {
-    _opcodeTable[Opcodes::C2SLoginRequest] = MAKE_MESSAGE_HANDLER("C2SLoginRequest", login_request_handler);
+    _opcodeTable[Opcodes::C2SRobotLoginReq] = MAKE_MESSAGE_HANDLER("C2SRobotLoginReq", robot_login_handler);
 }

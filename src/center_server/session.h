@@ -3,6 +3,7 @@
 
 #include <common.h>
 #include <network_common.h>
+#include <protobuf.h>
 
 class Session
 {
@@ -32,9 +33,12 @@ public:
     }
 
 public:
-    void login_request_handler(const google::protobuf::Message& message)
+    void robot_login_handler(const google::protobuf::Message& message)
     {
         std::cout << "enter login handler, session id = " << _sessionId << std::endl;
+        const Protocol::RobotLoginReq* request = static_cast<const Protocol::RobotLoginReq*>(&message);
+
+        std::cout << "received robot key = " << request->verify_key() << std::endl;
     }
 
 private:

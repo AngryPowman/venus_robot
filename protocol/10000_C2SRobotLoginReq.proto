@@ -1,6 +1,5 @@
-import "MessageBase.proto";
 package Protocol;
-message RobotLoginReq
+message C2SRobotLoginReq
 {
 	required string verify_key = 1;
 }

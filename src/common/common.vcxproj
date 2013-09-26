@@ -101,7 +101,7 @@
     <ClInclude Include="object_pool.hpp" />
     <ClInclude Include="opcodes.h" />
     <ClInclude Include="packet.h" />
-    <ClInclude Include="proto.h" />
+    <ClInclude Include="protobuf.h" />
     <ClInclude Include="protocol\MessageBase.pb.h" />
     <ClInclude Include="protocol\QQLoginCaptchaConfirm.pb.h" />
     <ClInclude Include="protocol\QQLoginCaptchaNotify.pb.h" />

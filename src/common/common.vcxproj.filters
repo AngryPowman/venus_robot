@@ -93,7 +93,7 @@
     <ClInclude Include="protocol\MessageBase.pb.h">
       <Filter>protocol\protobuf</Filter>
     </ClInclude>
-    <ClInclude Include="proto.h">
+    <ClInclude Include="protobuf.h">
       <Filter>protocol</Filter>
     </ClInclude>
   </ItemGroup>

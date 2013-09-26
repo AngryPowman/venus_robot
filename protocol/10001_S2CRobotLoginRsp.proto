@@ -1,6 +1,5 @@
-import "MessageBase.proto";
 package Protocol;
-message RobotLoginRsp
+message S2CRobotLoginRsp
 {
 	required bool login_result = 1;
 }

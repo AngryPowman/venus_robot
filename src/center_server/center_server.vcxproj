@@ -85,7 +85,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="asio_service_deamon.h" />
-    <ClInclude Include="packet_codec.h" />
     <ClInclude Include="session.h" />
     <ClInclude Include="io_dispatcher.h" />
     <ClInclude Include="opcodes_handler.h" />

@@ -1,0 +1,5 @@
+package Protocol;
+message C2SQQLoginCaptchaConfirm
+{
+	required string captcha_code = 1;
+}

@@ -12,9 +12,3 @@
 #include "common.h"
 
 // TODO: 在此处引用程序需要的其他头文件
-#include "protocol/MessageBase.pb.h"
-#include "protocol/QQLoginCaptchaConfirm.pb.h"
-#include "protocol/QQLoginCaptchaNotify.pb.h"
-#include "protocol/QQLoginReq.pb.h"
-#include "protocol/RobotLoginReq.pb.h"
-#include "protocol/RobotLoginRsp.pb.h"

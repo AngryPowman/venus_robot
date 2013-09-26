@@ -1,6 +1,5 @@
-import "MessageBase.proto";
 package Protocol;
-message QQLoginReq
+message C2SQQLoginReq
 {
 	required string account = 1;
 	required string password = 2;
