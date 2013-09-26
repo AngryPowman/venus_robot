@@ -50,5 +50,6 @@ public:
         SessionManager::instance().remove_session(session);
         SessionPool::instance().release(session);
     }
+
 };
 #endif

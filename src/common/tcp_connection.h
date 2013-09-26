@@ -62,7 +62,7 @@ private:
 
     ByteBuffer _buffer;
     ServerPacket* _integrity_packet;
-    std::vector<ServerPacket> _prepare_packet_list;
+    std::vector<ServerPacketPtr> _prepare_packet_list;
 
 private:
     tcp::socket _socket;

@@ -43,6 +43,7 @@ namespace net_params
 class TcpConnection;
 class InetAddress;
 class ByteBuffer;
+struct ServerPacket;
 
 //smart ptr
 typedef std::shared_ptr<std::thread> ThreadPtr;
@@ -54,6 +55,7 @@ typedef std::shared_ptr<TcpConnection> TcpConnectionPtr;
 //typedef std::shared_ptr<Connection<ConnectionType, ServiceType, NativeSocketType>> ConnectionPtr;
 
 typedef std::shared_ptr<ByteBuffer> ByteBufferPtr;
+typedef std::shared_ptr<ServerPacket> ServerPacketPtr;
 
 //callbacks
 typedef std::function<void (const TcpConnectionPtr& connection, uint32_t bytes_transferred)> WriteCompletedCallback;

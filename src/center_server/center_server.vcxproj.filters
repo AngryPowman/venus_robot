@@ -10,6 +10,7 @@
     <ClInclude Include="service_deamon.h" />
     <ClInclude Include="session_manager.h" />
     <ClInclude Include="session.h" />
+    <ClInclude Include="packet_codec.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="center_server.cpp" />

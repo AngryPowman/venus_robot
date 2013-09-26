@@ -9,8 +9,9 @@ AsioServiceDeamon::AsioServiceDeamon()
 
 AsioServiceDeamon::~AsioServiceDeamon()
 {
-    delete _service;
-    delete _server;
+    this->stop();
+    SAFE_DELETE(_service);
+    SAFE_DELETE(_server);
     //delete _network_service;
 }
 
@@ -51,5 +52,5 @@ void AsioServiceDeamon::start(const std::string& serviceName,
 
 void AsioServiceDeamon::stop()
 {
-
+    _server->stop();
 }

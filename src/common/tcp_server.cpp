@@ -28,7 +28,7 @@ TcpServer::TcpServer(const InetAddress& listenAddress, IOService& service, uint3
 
 TcpServer::~TcpServer()
 {
-    
+    _signals.clear();
 }
 
 void TcpServer::start()

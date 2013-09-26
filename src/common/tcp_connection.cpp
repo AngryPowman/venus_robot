@@ -179,10 +179,10 @@ void TcpConnection::handleRead(const boost::system::error_code& error, std::size
     {
         for (size_t i = 0; i < _prepare_packet_list.size(); ++i)
         {
-            const ServerPacket& packet = _prepare_packet_list[i];
-            const uint32_t& opcode = packet.opcode;
+            const ServerPacketPtr& packet = _prepare_packet_list[i];
+            const uint32_t& opcode = packet->opcode;
             const google::protobuf::Message* message 
-                = reinterpret_cast<const google::protobuf::Message*>(packet.message);
+                = reinterpret_cast<const google::protobuf::Message*>(packet->message);
 
             std::cout << "Network Message : [opcode = " <<  opcode << "]" << std::endl;
 
@@ -241,28 +241,31 @@ bool TcpConnection::append_buffer_fragment(const ByteBufferPtr& buffer)
         }
         else if (_buffer.size() == packet_len)
         {
-            ServerPacket* packet = 
-                (ServerPacket*)(reinterpret_cast<const ServerPacket*>(_buffer.buffer()));
+            //ServerPacket* packet = 
+            //    (ServerPacket*)(reinterpret_cast<const ServerPacket*>(_buffer.buffer()));
 
-            uint32 opcode = 0;
-            _buffer >> opcode;
 
+            ServerPacketPtr packet((ServerPacket*)reinterpret_cast<const ServerPacket*>(_buffer.buffer()));
+
+            //跳过数据头的8字节
+            _buffer.set_rpos(ServerPacket::HEADER_LENGTH);
+
+            //取得body长度
             size_t bodyLen = packet_len - ServerPacket::HEADER_LENGTH;
-            byte* messageBody = new byte[bodyLen];
-            _buffer.read(messageBody, bodyLen);
-            
-            Protocol::RobotLoginReq message;
-            bool parseResult = message.ParseFromArray(messageBody, bodyLen);
+            packet->message = new byte[bodyLen];
+            _buffer.read(packet->message, bodyLen);
 
-            _prepare_packet_list.push_back(*packet);
+            _prepare_packet_list.push_back(packet);
             _buffer.clear();
         }
         else
         {
-            ServerPacket* packet = 
-                (ServerPacket*)(reinterpret_cast<const ServerPacket*>(_buffer.buffer()));
+            //ServerPacket* packet = 
+            //    (ServerPacket*)(reinterpret_cast<const ServerPacket*>(_buffer.buffer()));
 
-            _prepare_packet_list.push_back(*packet);
+            ServerPacketPtr packet((ServerPacket*)reinterpret_cast<const ServerPacket*>(_buffer.buffer()));
+
+            _prepare_packet_list.push_back(packet);
             _buffer.erase(0, buffer->size());
             _buffer.set_rpos(0);
             _buffer.set_wpos(0);
