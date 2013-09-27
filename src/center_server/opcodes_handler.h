@@ -2,11 +2,12 @@
 #define OPCODES_HANDLER
 
 #include <common.h>
+#include <network_common.h>
 
 class Session;
 struct OpcodeHandler
 {
-    typedef std::function<void (Session*, const google::protobuf::Message&)> MessageHandler;
+    typedef std::function<void (Session*, const NetworkMessage&)> MessageHandler;
 
     OpcodeHandler(){}
     OpcodeHandler(const std::string& name, const MessageHandler& handler) :

@@ -7,21 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from: RobotLoginReq.proto
-// Note: requires additional types generated from: MessageBase.proto
+// Generated from: 10001_S2CRobotLoginRsp.proto
 namespace Protocol
 {
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RobotLoginReq")]
-  public partial class RobotLoginReq : global::ProtoBuf.IExtensible
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"S2CRobotLoginRsp")]
+  public partial class S2CRobotLoginRsp : global::ProtoBuf.IExtensible
   {
-    public RobotLoginReq() {}
+    public S2CRobotLoginRsp() {}
     
-    private string _verify_key;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"verify_key", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string verify_key
+    private bool _login_result;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"login_result", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public bool login_result
     {
-      get { return _verify_key; }
-      set { _verify_key = value; }
+      get { return _login_result; }
+      set { _login_result = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)

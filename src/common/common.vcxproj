@@ -102,12 +102,11 @@
     <ClInclude Include="opcodes.h" />
     <ClInclude Include="packet.h" />
     <ClInclude Include="protobuf.h" />
-    <ClInclude Include="protocol\MessageBase.pb.h" />
-    <ClInclude Include="protocol\QQLoginCaptchaConfirm.pb.h" />
-    <ClInclude Include="protocol\QQLoginCaptchaNotify.pb.h" />
-    <ClInclude Include="protocol\QQLoginReq.pb.h" />
-    <ClInclude Include="protocol\RobotLoginReq.pb.h" />
-    <ClInclude Include="protocol\RobotLoginRsp.pb.h" />
+    <ClInclude Include="protocol\10000_C2SRobotLoginReq.pb.h" />
+    <ClInclude Include="protocol\10001_S2CRobotLoginRsp.pb.h" />
+    <ClInclude Include="protocol\20000_C2SQQLoginReq.pb.h" />
+    <ClInclude Include="protocol\20001_S2CQQLoginCaptchaNotify.pb.h" />
+    <ClInclude Include="protocol\20002_C2SQQLoginCaptchaConfirm.pb.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="tcp_client.h" />
@@ -117,12 +116,11 @@
   <ItemGroup>
     <ClCompile Include="acceptor.cpp" />
     <ClCompile Include="error_code.cpp" />
-    <ClCompile Include="protocol\MessageBase.pb.cc" />
-    <ClCompile Include="protocol\QQLoginCaptchaConfirm.pb.cc" />
-    <ClCompile Include="protocol\QQLoginCaptchaNotify.pb.cc" />
-    <ClCompile Include="protocol\QQLoginReq.pb.cc" />
-    <ClCompile Include="protocol\RobotLoginReq.pb.cc" />
-    <ClCompile Include="protocol\RobotLoginRsp.pb.cc" />
+    <ClCompile Include="protocol\10000_C2SRobotLoginReq.pb.cc" />
+    <ClCompile Include="protocol\10001_S2CRobotLoginRsp.pb.cc" />
+    <ClCompile Include="protocol\20000_C2SQQLoginReq.pb.cc" />
+    <ClCompile Include="protocol\20001_S2CQQLoginCaptchaNotify.pb.cc" />
+    <ClCompile Include="protocol\20002_C2SQQLoginCaptchaConfirm.pb.cc" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

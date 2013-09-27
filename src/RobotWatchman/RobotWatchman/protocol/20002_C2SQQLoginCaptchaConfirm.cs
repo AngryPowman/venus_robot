@@ -7,14 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from: QQLoginCaptchaConfirm.proto
-// Note: requires additional types generated from: MessageBase.proto
+// Generated from: 20002_C2SQQLoginCaptchaConfirm.proto
 namespace Protocol
 {
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"QQLoginCaptchaConfirm")]
-  public partial class QQLoginCaptchaConfirm : global::ProtoBuf.IExtensible
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"C2SQQLoginCaptchaConfirm")]
+  public partial class C2SQQLoginCaptchaConfirm : global::ProtoBuf.IExtensible
   {
-    public QQLoginCaptchaConfirm() {}
+    public C2SQQLoginCaptchaConfirm() {}
     
     private string _captcha_code;
     [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"captcha_code", DataFormat = global::ProtoBuf.DataFormat.Default)]

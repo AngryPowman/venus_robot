@@ -16,7 +16,10 @@ namespace RobotWatchman
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmMain());
+
+            frmMain mainForm = new frmMain();
+            GlobalObject.MainForm = mainForm;
+            Application.Run(GlobalObject.MainForm);
         }
     }
 }

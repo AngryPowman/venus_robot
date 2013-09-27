@@ -16,6 +16,7 @@ public:
     void NewConnectionHandler(const TcpConnectionPtr& connection, const InetAddress& peerAddress)
     {
         Session* session = SessionPool::instance().acquire(connection->handle());
+        session->set_connection_ptr(connection);
         SessionManager::instance().add_session(session);
         std::cout << "New Session [NativeHandle = " << connection->handle() << ", Peer = " << peerAddress.toIpHost() << "]" << std::endl;
     }
@@ -28,7 +29,7 @@ public:
     void ReadCompletedHandler(
         const TcpConnectionPtr& connection, 
         uint32_t opcode, 
-        const google::protobuf::Message& message, 
+        const byte* data, 
         uint32_t bytes_transferred)
     {
         std::cout << "Read completed handler." << std::endl;
@@ -39,7 +40,13 @@ public:
         {
             Session* session = SessionManager::instance().get(connection->handle());
             if (session != NULL)
-                handler->message_handler(session, message);
+            {
+                NetworkMessage network_message;
+                network_message.data = data;
+                network_message.len = bytes_transferred;
+
+                handler->message_handler(session, network_message);
+            }
         }
     }
 

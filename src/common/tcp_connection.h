@@ -31,6 +31,7 @@ public:
     void connect(const InetAddress& inetAddress);
     void disconnect();
     void write(const byte* data, size_t size);
+    void write(const uint32& opcode, const byte* data, size_t size);
     void read();
     void shutdown();
     tcp::socket& socket();
@@ -57,13 +58,13 @@ private:
     {
         _state = S_IDLE;
         _buffer.clear();
-        _prepare_packet_list.clear();
+        //_prepare_packet_list.clear();
     }
 
 
 private:
     ByteBuffer _buffer;
-    std::vector<ServerPacket> _prepare_packet_list;
+    //std::vector<ServerPacket> _prepare_packet_list;
     tcp::socket _socket;
     WriteCompletedCallback _writeCompletedCallback;
     ReadCompletedCallback _readComplectedCallback;

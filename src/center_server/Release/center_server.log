@@ -1,0 +1,5 @@
+﻿  stdafx.cpp
+  asio_service_deamon.cpp
+  center_server.cpp
+  opcodes_handler.cpp
+LINK : fatal error LNK1181: 无法打开输入文件“_common.lib”
