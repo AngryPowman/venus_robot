@@ -176,6 +176,7 @@
             // btnRobotDisconnect
             // 
             this.btnRobotDisconnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRobotDisconnect.Enabled = false;
             this.btnRobotDisconnect.Location = new System.Drawing.Point(102, 109);
             this.btnRobotDisconnect.Name = "btnRobotDisconnect";
             this.btnRobotDisconnect.Size = new System.Drawing.Size(75, 23);

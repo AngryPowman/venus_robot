@@ -8,12 +8,27 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using ProtoBuf;
+using System.Windows.Forms;
 
 namespace RobotWatchman.network
 {
     class RobotNetworkEvent
     {
-        private static Socket _clientSocket;
+        private static OpcodesHandler _opcodeHandler = new OpcodesHandler();
+        private static Dictionary<string, UInt32> _opcodesTable = new Dictionary<string, UInt32>();
+        public static void init()
+        {
+            foreach (Opcodes opcode in Enum.GetValues(typeof(Opcodes)))
+            {
+                string strKey = Enum.GetName(typeof(Opcodes), opcode);
+                UInt32 strValue = (UInt32)opcode;
+                _opcodesTable.Add(strKey, strValue);
+            }
+        }
+
+        const int HEADER_LENGTH = 8;
+        private static Socket _clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        private static byte[] _recvBuffer = new byte[1024];
         public static void connectToRobotServer(string ip, UInt16 port)
         {
             addLog("正在连接到机器人服务器 " + ip + ":" + port.ToString() + "...");
@@ -22,17 +37,12 @@ namespace RobotWatchman.network
             if (_clientSocket != null && _clientSocket.Connected)
             {
                 _clientSocket.Shutdown(SocketShutdown.Both);
+                _clientSocket.Disconnect(true);
                 _clientSocket.Close();
             }
-
             _clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
-            IAsyncResult connectResult =
-                _clientSocket.BeginConnect(
-                IPAddress.Parse(ip),
-                port,
-                new AsyncCallback(onConnected), _clientSocket
-                );
+            _clientSocket.Connect(IPAddress.Parse(ip), port);
+            _clientSocket.BeginReceive(_recvBuffer, 0, _recvBuffer.Length, SocketFlags.None, new AsyncCallback(onReceived), _clientSocket);
         }
 
         public static void sendRobotLoginRequest(string verify_key)
@@ -46,18 +56,6 @@ namespace RobotWatchman.network
         /*******************************************************************************************
         /* 网络事件
         /*******************************************************************************************/
-        private static void onConnected(IAsyncResult result)
-        {
-            Socket socket = (Socket)result.AsyncState;
-            if (socket.Connected)
-            {
-                socket.EndConnect(result);
-
-                byte[] buffer = new byte[1024];
-                socket.BeginReceive(buffer, 0, 1024, SocketFlags.None, new AsyncCallback(onReceived), socket);
-            }
-        }
-
         private static void onSendCompleted(IAsyncResult result)
         {
             try
@@ -83,6 +81,26 @@ namespace RobotWatchman.network
             Socket socket = (Socket)result.AsyncState;
             int bytesReceived = socket.EndReceive(result);
 
+            MemoryStream streamPacket = new MemoryStream(_recvBuffer);
+            BinaryReader reader = new BinaryReader(streamPacket);
+            UInt32 len = reader.ReadUInt32();
+            UInt32 opcode = reader.ReadUInt32();
+
+            UInt32 messageLen = len - HEADER_LENGTH;
+            byte[] message = new byte[messageLen];
+            reader.Read(message, 0, message.Length);
+
+            Handler handlerInfo = _opcodeHandler.getHandler((Opcodes)opcode);
+            if (handlerInfo != null)
+            {
+                //Type type = Type.GetType(handlerInfo.protoType.FullName);
+                //object responseMessage = type.Assembly.CreateInstance(type.Name);
+                //handlerInfo.messageObject = Serializer.Deserialize<Object>(new MemoryStream(message));
+                //robotLoginResponse
+                //    = Serializer.Deserialize<Protocol.S2CRobotLoginRsp>(new MemoryStream(message));
+                //GlobalObject.MainForm.Invoke(handlerInfo.callback, handlerInfo.messageObject);
+            }
+
             Console.WriteLine("received {0} bytes.", bytesReceived);
         }
 
@@ -98,18 +116,17 @@ namespace RobotWatchman.network
         { 
             // Serialize body data first
             MemoryStream streamBody = new MemoryStream();
-            //BinaryFormatter protoDataFormatter = new BinaryFormatter();
-            //protoDataFormatter.Serialize(streamBody, message);
-
-            Serializer.SerializeWithLengthPrefix(streamBody, message, PrefixStyle.None);
+            Serializer.Serialize(streamBody, message);
             UInt32 bodyLen = (uint)streamBody.Length;
 
+            // Find opcode value with proto typename
+            UInt32 opcode = _opcodesTable[message.GetType().Name];
+
             // Serialize header data and body
-            const int headerLen = 8;
             MemoryStream streamPacket = new MemoryStream();
             BinaryWriter writer = new BinaryWriter(streamPacket);
-            writer.Write(headerLen + bodyLen);
-            writer.Write(10000);
+            writer.Write(HEADER_LENGTH + bodyLen);
+            writer.Write(opcode);
             writer.Write(streamBody.ToArray());
 
             int packetLen = (int)streamPacket.Length;

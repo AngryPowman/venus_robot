@@ -26,6 +26,7 @@ namespace RobotWatchman
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+            RobotNetworkEvent.init();
         }
 
         public void addLog(string log)
@@ -39,7 +40,19 @@ namespace RobotWatchman
             RobotNetworkEvent.sendRobotLoginRequest(txtRobotLoginVerifyKey.Text);
         }
 
+        public void robotLoginCallback(Protocol.S2CRobotLoginRsp protoMessage)
+        {
+            if (protoMessage.login_result == true)
+            {
+                btnRobotLogin.Enabled = false;
+                btnRobotDisconnect.Enabled = true;
 
-
+                addLog("连接机器人服务器成功。");
+            }
+            else
+            {
+                addLog("机器人服务器验证失败，请检查密钥是否正确。");
+            }
+        }
     }
 }

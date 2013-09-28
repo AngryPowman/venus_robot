@@ -35,11 +35,18 @@ public:
     {
         if (_connection != NULL)
         {
-            size_t byteSize = message.ByteSize();
-            byte* message_data = new byte[byteSize];
-            message.SerializeToArray(message_data, byteSize);
+            size_t messageSize = message.ByteSize();
+            size_t packetSize = ServerPacket::HEADER_LENGTH + messageSize;
 
-            _connection->write(message_data, byteSize);
+            ByteBuffer packet_buffer;
+            packet_buffer << packetSize;
+            packet_buffer << opcode;
+            
+            byte* message_data = new byte[messageSize];
+            message.SerializeToArray(message_data, messageSize);
+            packet_buffer.append(message_data, messageSize);
+
+            _connection->write(packet_buffer.buffer(), packet_buffer.size());
 
             SAFE_DELETE_ARR(message_data);
         }
