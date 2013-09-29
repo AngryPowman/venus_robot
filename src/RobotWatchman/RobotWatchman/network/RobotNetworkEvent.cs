@@ -111,11 +111,6 @@ namespace RobotWatchman.network
             Handler handlerInfo = _opcodeHandler.getHandler((Opcodes)opcode);
             if (handlerInfo != null)
             {
-                //Type type = Type.GetType(handlerInfo.protoType.FullName);
-                //object responseMessage = type.Assembly.CreateInstance(type.Name);
-                //handlerInfo.messageObject = Serializer.Deserialize<Object>(new MemoryStream(message));
-                //robotLoginResponse
-                //    = Serializer.Deserialize<Protocol.S2CRobotLoginRsp>(new MemoryStream(message));
                 GlobalObject.MainForm.Invoke(handlerInfo.callback, new MemoryStream(message));
             }
 
