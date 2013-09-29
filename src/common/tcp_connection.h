@@ -50,21 +50,14 @@ private:
     void handleRead(const boost::system::error_code& error, std::size_t bytes_transferred);
 
 private:
-    /*nagle handle*/
-    enum CODEC_STATE { S_IDLE, S_PROCESSING } _state;
-
     bool append_buffer_fragment(const ByteBufferPtr& buffer);
     void reset()
     {
-        _state = S_IDLE;
         _buffer.clear();
-        //_prepare_packet_list.clear();
     }
-
 
 private:
     ByteBuffer _buffer;
-    //std::vector<ServerPacket> _prepare_packet_list;
     tcp::socket _socket;
     WriteCompletedCallback _writeCompletedCallback;
     ReadCompletedCallback _readComplectedCallback;

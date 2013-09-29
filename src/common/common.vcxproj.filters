@@ -25,6 +25,9 @@
     <Filter Include="protocol\protobuf">
       <UniqueIdentifier>{d6578cf9-def7-49ed-bf4f-2c85d809ce00}</UniqueIdentifier>
     </Filter>
+    <Filter Include="network\http">
+      <UniqueIdentifier>{f93fb8ed-f98e-492f-b5ca-d18e3a1d0335}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
@@ -92,6 +95,15 @@
     </ClInclude>
     <ClInclude Include="protocol\20002_C2SQQLoginCaptchaConfirm.pb.h">
       <Filter>protocol\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="http_request.h">
+      <Filter>network\http</Filter>
+    </ClInclude>
+    <ClInclude Include="header_collection.h">
+      <Filter>network\http</Filter>
+    </ClInclude>
+    <ClInclude Include="http_request_header.h">
+      <Filter>network\http</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
