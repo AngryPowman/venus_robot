@@ -45,8 +45,13 @@ namespace RobotWatchman.network
             _clientSocket.BeginReceive(_recvBuffer, 0, _recvBuffer.Length, SocketFlags.None, new AsyncCallback(onReceived), _clientSocket);
         }
 
+        /// <summary>
+        /// 机器人验证请求
+        /// </summary>
+        /// <param name="verify_key"></param>
         public static void sendRobotLoginRequest(string verify_key)
         {
+            addLog("正在验证机器人密钥...");
             Protocol.C2SRobotLoginReq request = new Protocol.C2SRobotLoginReq();
             request.verify_key = verify_key;
 
@@ -98,7 +103,7 @@ namespace RobotWatchman.network
                 //handlerInfo.messageObject = Serializer.Deserialize<Object>(new MemoryStream(message));
                 //robotLoginResponse
                 //    = Serializer.Deserialize<Protocol.S2CRobotLoginRsp>(new MemoryStream(message));
-                //GlobalObject.MainForm.Invoke(handlerInfo.callback, handlerInfo.messageObject);
+                GlobalObject.MainForm.Invoke(handlerInfo.callback, new MemoryStream(message));
             }
 
             Console.WriteLine("received {0} bytes.", bytesReceived);
@@ -107,7 +112,7 @@ namespace RobotWatchman.network
         /*******************************************************************************************
         /* 其它函数
         /*******************************************************************************************/
-        static void addLog(string log)
+        private static void addLog(string log)
         {
             GlobalObject.MainForm.addLog(log);
         }
@@ -132,6 +137,11 @@ namespace RobotWatchman.network
             int packetLen = (int)streamPacket.Length;
 
             _clientSocket.BeginSend(streamPacket.ToArray(), 0, packetLen, 0, new AsyncCallback(onSendCompleted), _clientSocket);
+        }
+
+        public static T parseMessage<T>(MemoryStream stream)
+        {
+            return Serializer.Deserialize<T>(stream);
         }
     }
 }

@@ -15,10 +15,10 @@ namespace RobotWatchman.network
         S2CRobotLoginRsp             = 10001,
     }
 
-    public delegate void NetworkMessageCallback<T>(T message);
+    public delegate void NetworkMessageCallback(MemoryStream stream);
     class Handler
     {
-        public void createHandler<T>(Delegate cb)
+        public void createHandler(Delegate cb)
         {
             callback = cb;
         }
@@ -36,7 +36,7 @@ namespace RobotWatchman.network
         private Dictionary<Opcodes, Handler> _handlers = new Dictionary<Opcodes, Handler>();
         public OpcodesHandler()
         {
-            addHandler<Protocol.S2CRobotLoginRsp>(Opcodes.S2CRobotLoginRsp, GlobalObject.MainForm.robotLoginCallback);
+            addHandler(Opcodes.S2CRobotLoginRsp, GlobalObject.MainForm.robotLoginCallback);
         }
 
         public Handler getHandler(Opcodes opcode)
@@ -44,10 +44,10 @@ namespace RobotWatchman.network
             return _handlers[opcode];
         }
 
-        public void addHandler<TMessage>(Opcodes opcode, NetworkMessageCallback<TMessage> callback)
+        public void addHandler(Opcodes opcode, NetworkMessageCallback callback)
         {
             Handler handler = new Handler();
-            handler.createHandler<TMessage>(callback);
+            handler.createHandler(callback);
             _handlers[opcode] = handler;
         }
     }

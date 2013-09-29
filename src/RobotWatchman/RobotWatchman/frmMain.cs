@@ -32,6 +32,7 @@ namespace RobotWatchman
         public void addLog(string log)
         {
             lstLog.Items.Add("[" + DateTime.Now.ToString() + "] " + log);
+            lstLog.SelectedIndex = lstLog.Items.Count - 1;
         }
 
         private void btnRobotLogin_Click(object sender, EventArgs e)
@@ -40,14 +41,16 @@ namespace RobotWatchman
             RobotNetworkEvent.sendRobotLoginRequest(txtRobotLoginVerifyKey.Text);
         }
 
-        public void robotLoginCallback(Protocol.S2CRobotLoginRsp protoMessage)
+        public void robotLoginCallback(MemoryStream stream)
         {
-            if (protoMessage.login_result == true)
+            Protocol.S2CRobotLoginRsp response = RobotNetworkEvent.parseMessage<Protocol.S2CRobotLoginRsp>(stream);
+
+            if (response.login_result == true)
             {
                 btnRobotLogin.Enabled = false;
                 btnRobotDisconnect.Enabled = true;
 
-                addLog("连接机器人服务器成功。");
+                addLog("机器人服务器验证成功！");
             }
             else
             {
