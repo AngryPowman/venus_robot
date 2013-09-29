@@ -57,5 +57,13 @@ namespace RobotWatchman
                 addLog("机器人服务器验证失败，请检查密钥是否正确。");
             }
         }
+
+        private void btnRobotDisconnect_Click(object sender, EventArgs e)
+        {
+            RobotNetworkEvent.disconnectRobotServer();
+            btnRobotDisconnect.Enabled = false;
+            btnRobotLogin.Enabled = true;
+            addLog("与机器人服务器的连接已断开。");
+        }
     }
 }

@@ -183,6 +183,7 @@
             this.btnRobotDisconnect.TabIndex = 4;
             this.btnRobotDisconnect.Text = "断开";
             this.btnRobotDisconnect.UseVisualStyleBackColor = true;
+            this.btnRobotDisconnect.Click += new System.EventHandler(this.btnRobotDisconnect_Click);
             // 
             // btnRobotLogin
             // 

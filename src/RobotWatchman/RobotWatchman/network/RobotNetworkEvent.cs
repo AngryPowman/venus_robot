@@ -34,15 +34,22 @@ namespace RobotWatchman.network
             addLog("正在连接到机器人服务器 " + ip + ":" + port.ToString() + "...");
 
             //连接到服务器
+            disconnectRobotServer();
+
+            _clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            _clientSocket.Connect(IPAddress.Parse(ip), port);
+            _clientSocket.BeginReceive(_recvBuffer, 0, _recvBuffer.Length, SocketFlags.None, new AsyncCallback(onReceived), _clientSocket);
+        }
+
+        public static void disconnectRobotServer()
+        {
+            //连接到服务器
             if (_clientSocket != null && _clientSocket.Connected)
             {
                 _clientSocket.Shutdown(SocketShutdown.Both);
                 _clientSocket.Disconnect(true);
                 _clientSocket.Close();
             }
-            _clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            _clientSocket.Connect(IPAddress.Parse(ip), port);
-            _clientSocket.BeginReceive(_recvBuffer, 0, _recvBuffer.Length, SocketFlags.None, new AsyncCallback(onReceived), _clientSocket);
         }
 
         /// <summary>
@@ -86,6 +93,12 @@ namespace RobotWatchman.network
             Socket socket = (Socket)result.AsyncState;
             int bytesReceived = socket.EndReceive(result);
 
+            if (bytesReceived == 0)
+            {
+                onDisconnected();
+                return;
+            }
+
             MemoryStream streamPacket = new MemoryStream(_recvBuffer);
             BinaryReader reader = new BinaryReader(streamPacket);
             UInt32 len = reader.ReadUInt32();
@@ -107,6 +120,11 @@ namespace RobotWatchman.network
             }
 
             Console.WriteLine("received {0} bytes.", bytesReceived);
+        }
+
+        private static void onDisconnected()
+        { 
+        
         }
 
         /*******************************************************************************************
