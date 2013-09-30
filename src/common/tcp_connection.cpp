@@ -6,21 +6,20 @@
 #include "packet.h"
 #include "protobuf.h"
 
+const static int DEFAULT_CIRCULAR_BUFFER_SIZE = 512;
 TcpConnection::TcpConnection(IOService& io_service)
-    : _inetAddress(0)
+    : _io_service(io_service),
+    _strand(io_service.service()),
+    _socket(io_service.service()),
+    _inetAddress(0)
 {
-    _socket = new Socket(io_service);
-
-    // register socket callbacks
-    _socket->set_connected_callback(std::bind(&TcpConnection::on_connected, this));
-    _socket->set_send_callback(std::bind(&TcpConnection::on_write, this, std::placeholders::_1));
-    _socket->set_receive_callback(std::bind(&TcpConnection::on_read, this, std::placeholders::_1, std::placeholders::_2));
-    _socket->set_close_callback(std::bind(&TcpConnection::on_close, this));
 }
 
 TcpConnection::~TcpConnection()
 {
-    SAFE_DELETE(_socket);
+    if (isOpen())
+        _socket.close();
+
 
     _buffer.clear();
     std::cout << "connection destroyed." << std::endl;
@@ -33,28 +32,48 @@ void TcpConnection::setInetAddress(const InetAddress& inetAddress)
 
 void TcpConnection::connect()
 {
-    _socket->connect(_inetAddress.host(), _inetAddress.port());
+    connect(_inetAddress);
 }
 
 void TcpConnection::connect(const InetAddress& inetAddress)
 {
     setInetAddress(inetAddress);
-    _socket->connect(_inetAddress.host(), _inetAddress.port());
-}
+    if (isOpen())
+        shutdown();
 
-void TcpConnection::shutdown()
-{
-    _socket->shutdown();
+    boost::asio::ip::tcp::endpoint endpoint(
+        boost::asio::ip::address::from_string(_inetAddress.host()), _inetAddress.port());
+
+    _socket.async_connect(
+        endpoint,
+        boost::bind(&TcpConnection::handleConnected, shared_from_this(), boost::asio::placeholders::error));
 }
 
 void TcpConnection::close()
 {
-    _socket->close();
+    _socket.close();
 }
 
 void TcpConnection::write(const byte* data, size_t size)
 {
-    _socket->send(data, size);
+    if (data == nullptr || size == 0)
+    {
+        std::cout << "empty data." << std::endl;
+        return;
+    }
+
+    boost::asio::async_write(
+        _socket,
+        boost::asio::buffer(data, size),
+        _strand.wrap(
+            boost::bind(
+                &TcpConnection::handleWrite, 
+                shared_from_this(), 
+                boost::asio::placeholders::error, 
+                boost::asio::placeholders::bytes_transferred
+            )
+        )
+    );
 }
 
 void TcpConnection::write(const uint32& opcode, const byte* message_data, size_t message_size)
@@ -75,17 +94,32 @@ void TcpConnection::write(const uint32& opcode, const byte* message_data, size_t
 
 void TcpConnection::read()
 {
-    _socket->receive();
+    _socket.async_read_some(
+        boost::asio::buffer(_recvBuffer),
+        _strand.wrap(
+            boost::bind(
+                &TcpConnection::handleRead, 
+                shared_from_this(), 
+                boost::asio::placeholders::error, 
+                boost::asio::placeholders::bytes_transferred
+            )
+        )
+    );
+}
+
+void TcpConnection::shutdown()
+{
+    _socket.shutdown(boost::asio::socket_base::shutdown_both);
 }
 
 tcp::socket& TcpConnection::socket()
 {
-    return _socket->socket();
+    return _socket;
 }
 
-bool TcpConnection::is_open()
+bool TcpConnection::isOpen()
 {
-    return _socket->is_open();
+    return _socket.is_open();
 }
 
 void TcpConnection::setWriteCompletedCallback(const WriteCompletedCallback& cb)
@@ -108,37 +142,62 @@ void TcpConnection::setConnectedCallback(const ConnectionConnectedCallback& cb)
     _connectedCallback = cb;
 }
 
-void TcpConnection::on_connected()
+void TcpConnection::handleConnected(const boost::system::error_code& error)
 {
-    std::cout << "connection has been connected." << std::endl;
-
-    read();
-    if (_connectedCallback)
-        _connectedCallback(shared_from_this());
-}
-
-void TcpConnection::on_write(
-    std::size_t bytes_transferred           // Number of bytes sent.
-)
-{
-    std::cout << "bytes_transferred = " << bytes_transferred << std::endl;
-    if (_writeCompletedCallback)
+    if(!error)
     {
-        _writeCompletedCallback(shared_from_this(), bytes_transferred);
+        std::cout << "connection has been connected." << std::endl;
+
+        read();
+        if (_connectedCallback)
+            _connectedCallback(shared_from_this());
     }
     else
     {
-        std::cout << "write complected." << std::endl;
+        std::cout << "connection error occured. error = " << error.message() << std::endl;
     }
 }
 
-void TcpConnection::on_read(const byte* data, size_t bytes_transferred)
+void TcpConnection::handleWrite(
+    const boost::system::error_code& error, // Result of operation.
+    std::size_t bytes_transferred           // Number of bytes sent.
+)
 {
+    if (error)
+    {
+        onError(error);
+    }
+    else
+    {
+        std::cout << "bytes_transferred = " << bytes_transferred << std::endl;
+        if (_writeCompletedCallback)
+        {
+            _writeCompletedCallback(shared_from_this(), bytes_transferred);
+        }
+        else
+        {
+            std::cout << "write complected." << std::endl;
+        }
+    }
+}
+
+void TcpConnection::handleRead(const boost::system::error_code& error, std::size_t bytes_transferred)
+{
+    if (error)
+        return onError(error);
+
+    if (bytes_transferred == 0)
+    {
+        std::cout << "oops, connection lost :(" << std::endl;
+        return;
+    }
+    
     this->read();
 
     size_t bodyLen = 0;
 
-    ByteBuffer read_buffer(_socket->get_recv_buffer(), bytes_transferred);
+    //ByteBufferPtr read_buffer(new ByteBuffer(_recvBuffer.data(), bytes_transferred));
+    ByteBuffer read_buffer(_recvBuffer.data(), bytes_transferred);
     _buffer.append(read_buffer);
 
     std::vector<ServerPacketPtr> packetList;
@@ -202,7 +261,23 @@ void TcpConnection::on_read(const byte* data, size_t bytes_transferred)
 
 }
 
-void TcpConnection::on_close()
+void TcpConnection::onError(const boost::system::error_code& error)
 {
-
+    std::cout << "An error occured, code = " << error.value() << ", message = " << error.message() << std::endl;
+    
+    shutdown();
+    switch (error.value())
+    {
+        case boost::asio::error::bad_descriptor:
+        case boost::asio::error::eof:
+        case boost::asio::error::operation_aborted:
+        case boost::asio::error::connection_reset:
+        {
+            if (_connectionClosedCallback)
+            {
+                _connectionClosedCallback(shared_from_this());
+            }
+            break;
+        }
+    }
 }
