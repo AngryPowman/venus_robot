@@ -9,11 +9,12 @@
 #include "byte_buffer.h"
 #include "packet.h"
 #include "network_common.h"
-#include "io_service.h"
+#include "socket.h"
 
 using namespace boost::asio::ip;
 
 struct ServerPacket;
+class Socket;
 class TcpConnection
     : private boost::noncopyable, public std::enable_shared_from_this<TcpConnection>
 {
@@ -24,7 +25,7 @@ public:
 public:
     __forceinline int handle()  //return native socket handle
     {
-        return _socket.native_handle();
+        return _socket->handle();
     }
     void setInetAddress(const InetAddress& inetAddress);
     void connect();
@@ -35,7 +36,7 @@ public:
     void write(const uint32& opcode, const byte* data, size_t size);
     void read();
     tcp::socket& socket();
-    bool isOpen();
+    bool is_open();
 
 public:
     void setWriteCompletedCallback(const WriteCompletedCallback& cb);
@@ -44,10 +45,10 @@ public:
     void setConnectedCallback(const ConnectionConnectedCallback& cb);
 
 private:
-    void onError(const boost::system::error_code& error);
-    void handleConnected(const boost::system::error_code& error);
-    void handleWrite(const boost::system::error_code& error, std::size_t bytes_transferred);
-    void handleRead(const boost::system::error_code& error, std::size_t bytes_transferred);
+    void on_connected();
+    void on_write(size_t bytes_transferred);
+    void on_read(const byte* data, size_t bytes_transferred);
+    void on_close();
 
 private:
     bool append_buffer_fragment(const ByteBufferPtr& buffer);
@@ -57,15 +58,13 @@ private:
     }
 
 private:
+    Socket* _socket;
+
     ByteBuffer _buffer;
-    tcp::socket _socket;
     WriteCompletedCallback _writeCompletedCallback;
     ReadCompletedCallback _readComplectedCallback;
     ConnectionClosedCallback _connectionClosedCallback;
     ConnectionConnectedCallback _connectedCallback;
-    boost::array<byte, MAX_RECV_LEN> _recvBuffer;
-    boost::asio::strand _strand;
-    IOService& _io_service;
     InetAddress _inetAddress;
 };
 
