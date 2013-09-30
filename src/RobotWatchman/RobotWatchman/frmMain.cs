@@ -37,8 +37,10 @@ namespace RobotWatchman
 
         private void btnRobotLogin_Click(object sender, EventArgs e)
         {
-            RobotNetworkEvent.connectToRobotServer(txtRobotLoginServer.Text, Convert.ToUInt16(txtRobotLoginPort.Text));
-            RobotNetworkEvent.sendRobotLoginRequest(txtRobotLoginVerifyKey.Text);
+            if (RobotNetworkEvent.connectToRobotServer(txtRobotLoginServer.Text, Convert.ToUInt16(txtRobotLoginPort.Text)) == true)
+            {
+                RobotNetworkEvent.sendRobotLoginRequest(txtRobotLoginVerifyKey.Text);
+            }
         }
 
         public void robotLoginCallback(MemoryStream stream)

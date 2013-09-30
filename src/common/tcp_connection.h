@@ -39,10 +39,10 @@ public:
     bool is_open();
 
 public:
+    void setConnectedCallback(const ConnectionConnectedCallback& cb);
     void setWriteCompletedCallback(const WriteCompletedCallback& cb);
     void setReadCompletedCallback(const ReadCompletedCallback& cb);
     void setConnectionClosedCallback(const ConnectionClosedCallback& cb);
-    void setConnectedCallback(const ConnectionConnectedCallback& cb);
 
 private:
     void on_connected();
@@ -59,13 +59,14 @@ private:
 
 private:
     Socket* _socket;
-
     ByteBuffer _buffer;
+    InetAddress _inetAddress;
+
+private:
+    ConnectionConnectedCallback _connectedCallback;
     WriteCompletedCallback _writeCompletedCallback;
     ReadCompletedCallback _readComplectedCallback;
     ConnectionClosedCallback _connectionClosedCallback;
-    ConnectionConnectedCallback _connectedCallback;
-    InetAddress _inetAddress;
 };
 
 #endif

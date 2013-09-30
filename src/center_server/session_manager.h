@@ -56,7 +56,7 @@ public:
 public:
     void add_session(Session* session)
     {
-        if (get(session->session_id()) == NULL)
+        if (get(session->session_id()) == nullptr)
         {
             _mutex.lock();
             _sessionList.insert(std::make_pair(session->session_id(), session));
@@ -88,7 +88,7 @@ public:
             return iter->second;
         }
 
-        return NULL;
+        return nullptr;
     }
 
 private:

@@ -12,7 +12,8 @@ class Session
 {
 public:
     Session(const uint64_t& session_id)
-        : _sessionId(session_id)
+        : _sessionId(session_id),
+        _connection(nullptr)
     {
     }
 
@@ -33,7 +34,7 @@ public:
 
     template <typename T> void send_message(uint32 opcode, const T& message)
     {
-        if (_connection != NULL)
+        if (_connection != nullptr)
         {
             size_t messageSize = message.ByteSize();
             size_t packetSize = ServerPacket::HEADER_LENGTH + messageSize;

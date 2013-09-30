@@ -36,10 +36,10 @@ public:
         std::cout << "  opcode = " << opcode << std::endl;
 
         OpcodeHandler* handler = OpcodeTable::instance()[opcode];
-        if (handler != NULL)
+        if (handler != nullptr)
         {
             Session* session = SessionManager::instance().get(connection->handle());
-            if (session != NULL)
+            if (session != nullptr)
             {
                 NetworkMessage network_message;
                 network_message.data = data;
@@ -54,6 +54,7 @@ public:
     {
         std::cout << "Connection closed handler." << std::endl;
         Session* session = SessionManager::instance().get(connection->handle());
+        session->set_connection_ptr(nullptr);
         SessionManager::instance().remove_session(session);
         SessionPool::instance().release(session);
     }

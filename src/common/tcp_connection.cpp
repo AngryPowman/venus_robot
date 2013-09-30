@@ -204,5 +204,8 @@ void TcpConnection::on_read(const byte* data, size_t bytes_transferred)
 
 void TcpConnection::on_close()
 {
-
+    if (_connectionClosedCallback)
+    {
+        _connectionClosedCallback(shared_from_this());
+    }
 }

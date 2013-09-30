@@ -29,7 +29,7 @@ namespace RobotWatchman.network
         const int HEADER_LENGTH = 8;
         private static Socket _clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         private static byte[] _recvBuffer = new byte[1024];
-        public static void connectToRobotServer(string ip, UInt16 port)
+        public static bool connectToRobotServer(string ip, UInt16 port)
         {
             addLog("正在连接到机器人服务器 " + ip + ":" + port.ToString() + "...");
 
@@ -37,8 +37,20 @@ namespace RobotWatchman.network
             disconnectRobotServer();
 
             _clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            _clientSocket.Connect(IPAddress.Parse(ip), port);
+
+            try
+            {
+                _clientSocket.Connect(IPAddress.Parse(ip), port);
+            }
+            catch (SocketException ex)
+            {
+                MessageBox.Show(ex.Message);
+                return false;
+            }
+
             _clientSocket.BeginReceive(_recvBuffer, 0, _recvBuffer.Length, SocketFlags.None, new AsyncCallback(onReceived), _clientSocket);
+
+            return true;
         }
 
         public static void disconnectRobotServer()
