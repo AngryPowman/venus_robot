@@ -9,13 +9,13 @@
 using namespace boost::asio::ip;
 
 class Socket
-    : private boost::noncopyable
+    : private boost::noncopyable, public std::enable_shared_from_this<Socket>
 {
     //raw callback types
-    typedef std::function<void ()> ConnectedCallback;
-    typedef std::function<void (size_t bytes_transferred)> SendCallback;
-    typedef std::function<void (const byte* data, size_t bytes_transferred)> ReceiveCallback;
-    typedef std::function<void ()> CloseCallback;
+    typedef std::function<void (const SocketPtr& socket, uint32_t bytes_transferred)> SendCallback;
+    typedef std::function<void (const SocketPtr& socket, const byte* data, uint32_t bytes_transferred)> ReceiveCallback;
+    typedef std::function<void (const SocketPtr& socket)> ConnectedCallback;
+    typedef std::function<void (const SocketPtr& connection)> CloseCallback;
 
 public:
     Socket(IOService& service);
@@ -33,18 +33,17 @@ public:
     void send(const byte* data, size_t size);
     void receive();
     bool is_open() const;
-    byte* get_recv_buffer();
     tcp::socket& socket();
 
 public:
-    inline void set_connected_callback(const ConnectedCallback& callback)
-    { _connected_callback = callback; }
-
     inline void set_send_callback(const SendCallback& callback)
     { _send_callback = callback; }
 
     inline void set_receive_callback(const ReceiveCallback& callback)
     { _receive_callback = callback; }
+
+    inline void set_connected_callback(const ConnectedCallback& callback)
+    { _connected_callback = callback; }
 
     inline void set_close_callback(const CloseCallback& callback)
     { _close_callback = callback; }
