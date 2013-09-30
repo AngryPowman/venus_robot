@@ -6,7 +6,7 @@
 
 typedef std::function<void (const std::string& connection)> HttpResponseCallback;
 
-class TcpConnection;
+class Socket;
 class HttpRequest
     : public boost::noncopyable
 {
@@ -22,10 +22,10 @@ public:
     void setHttpResponseCallback(const HttpResponseCallback& cb);
 
 private:
-    void callback(const TcpConnectionPtr& connection, uint32_t opcode, const byte* data, uint32_t bytes_transferred);
+    void callback(const byte* data, uint32 bytes_transferred);
 
 private:
-    TcpConnection* _connection;
+    Socket* _socket;
 };
 
 #endif
