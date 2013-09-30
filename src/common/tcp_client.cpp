@@ -58,7 +58,7 @@ void TcpClient::setConnectionClosedCallback(const ConnectionClosedCallback& cb)
     _connectionClosedCallback = cb;
 }
 
-void TcpClient::setConnectedCallback(const ConnectedCallback& cb)
+void TcpClient::setConnectedCallback(const ConnectionConnectedCallback& cb)
 {
     _connectedCallback = cb;
 }

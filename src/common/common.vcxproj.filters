@@ -105,6 +105,9 @@
     <ClInclude Include="http_request_header.h">
       <Filter>network\http</Filter>
     </ClInclude>
+    <ClInclude Include="socket.h">
+      <Filter>network</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -139,6 +142,9 @@
     </ClCompile>
     <ClCompile Include="protocol\10000_C2SRobotLoginReq.pb.cc">
       <Filter>protocol\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="socket.cpp">
+      <Filter>network</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

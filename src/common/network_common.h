@@ -66,7 +66,7 @@ typedef std::shared_ptr<ServerPacket> ServerPacketPtr;
 typedef std::function<void (const TcpConnectionPtr& connection, uint32_t bytes_transferred)> WriteCompletedCallback;
 typedef std::function<void (const TcpConnectionPtr& connection, uint32_t opcode, const byte* data, uint32_t bytes_transferred)> ReadCompletedCallback;
 typedef std::function<void (const TcpConnectionPtr& connection)> AcceptedCallback;
-typedef std::function<void (const TcpConnectionPtr& connection)> ConnectedCallback;
+typedef std::function<void (const TcpConnectionPtr& connection)> ConnectionConnectedCallback;
 typedef std::function<void (const TcpConnectionPtr& connection, const InetAddress& address)> NewConnectionCallback;
 typedef std::function<void (const TcpConnectionPtr& connection)> ConnectionClosedCallback;
 

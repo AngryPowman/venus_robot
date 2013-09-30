@@ -49,9 +49,9 @@ void TcpConnection::connect(const InetAddress& inetAddress)
         boost::bind(&TcpConnection::handleConnected, shared_from_this(), boost::asio::placeholders::error));
 }
 
-void TcpConnection::disconnect()
+void TcpConnection::close()
 {
-
+    _socket.close();
 }
 
 void TcpConnection::write(const byte* data, size_t size)
@@ -137,7 +137,7 @@ void TcpConnection::setConnectionClosedCallback(const ConnectionClosedCallback& 
     _connectionClosedCallback = cb;
 }
 
-void TcpConnection::setConnectedCallback(const ConnectedCallback& cb)
+void TcpConnection::setConnectedCallback(const ConnectionConnectedCallback& cb)
 {
     _connectedCallback = cb;
 }

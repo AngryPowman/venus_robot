@@ -25,7 +25,7 @@ public:
 public:
     void setWriteCompletedCallback(const WriteCompletedCallback& cb);
     void setReadCompletedCallback(const ReadCompletedCallback& cb);
-    void setConnectedCallback(const ConnectedCallback& cb);
+    void setConnectedCallback(const ConnectionConnectedCallback& cb);
     void setConnectionClosedCallback(const ConnectionClosedCallback& cb);
 
 private:
@@ -33,7 +33,7 @@ private:
     WriteCompletedCallback _writeCompletedCallback;
     ReadCompletedCallback _readCompletedCallback;
     ConnectionClosedCallback _connectionClosedCallback;
-    ConnectedCallback _connectedCallback;
+    ConnectionConnectedCallback _connectedCallback;
     IOService& _io_service;
     InetAddress _inetAddress;
 };

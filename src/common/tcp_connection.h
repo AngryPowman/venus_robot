@@ -29,11 +29,11 @@ public:
     void setInetAddress(const InetAddress& inetAddress);
     void connect();
     void connect(const InetAddress& inetAddress);
-    void disconnect();
+    void shutdown();
+    void close();
     void write(const byte* data, size_t size);
     void write(const uint32& opcode, const byte* data, size_t size);
     void read();
-    void shutdown();
     tcp::socket& socket();
     bool isOpen();
 
@@ -41,7 +41,7 @@ public:
     void setWriteCompletedCallback(const WriteCompletedCallback& cb);
     void setReadCompletedCallback(const ReadCompletedCallback& cb);
     void setConnectionClosedCallback(const ConnectionClosedCallback& cb);
-    void setConnectedCallback(const ConnectedCallback& cb);
+    void setConnectedCallback(const ConnectionConnectedCallback& cb);
 
 private:
     void onError(const boost::system::error_code& error);
@@ -62,7 +62,7 @@ private:
     WriteCompletedCallback _writeCompletedCallback;
     ReadCompletedCallback _readComplectedCallback;
     ConnectionClosedCallback _connectionClosedCallback;
-    ConnectedCallback _connectedCallback;
+    ConnectionConnectedCallback _connectedCallback;
     boost::array<byte, MAX_RECV_LEN> _recvBuffer;
     boost::asio::strand _strand;
     IOService& _io_service;

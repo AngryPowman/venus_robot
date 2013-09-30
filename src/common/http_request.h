@@ -2,7 +2,9 @@
 #define __HTTP_REQUEST_H__
 
 #include "common.h"
-#include <boost/noncopyable.hpp>
+#include "network_common.h"
+
+typedef std::function<void (const std::string& connection)> HttpResponseCallback;
 
 class TcpConnection;
 class HttpRequest
@@ -14,8 +16,15 @@ public:
 public:
     void setMethod(const std::string& method);
     void setHeader(const std::string& header, const std::string& value);
+    void open();
 
 public:
+    void setHttpResponseCallback(const HttpResponseCallback& cb);
+
+private:
+    void callback(const TcpConnectionPtr& connection, uint32_t opcode, const byte* data, uint32_t bytes_transferred);
+
+private:
     TcpConnection* _connection;
 };
 
