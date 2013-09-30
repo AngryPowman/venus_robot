@@ -52,6 +52,7 @@ struct NetworkMessage
 
 //forward declarations 
 class TcpConnection;
+class Socket;
 class InetAddress;
 class ByteBuffer;
 struct ServerPacket;
@@ -59,6 +60,7 @@ struct ServerPacket;
 //smart ptr
 typedef std::shared_ptr<std::thread> ThreadPtr;
 typedef std::shared_ptr<TcpConnection> TcpConnectionPtr;
+typedef std::shared_ptr<Socket> SocketPtr;
 typedef std::shared_ptr<ByteBuffer> ByteBufferPtr;
 typedef std::shared_ptr<ServerPacket> ServerPacketPtr;
 
