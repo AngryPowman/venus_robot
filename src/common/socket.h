@@ -27,11 +27,15 @@ public:
         return _socket.native_handle();
     }
 
-    void connect(const std::string& ip, uint16 port);
-    void close();
+    bool connect(const std::string& host, uint16 port);
+    size_t send(const byte* data, size_t size);
+    size_t receive(byte* data, size_t size);
+
+    void start_connect(const std::string& host, uint16 port, const ConnectedCallback* callback = nullptr);
+    void start_send(const byte* data, size_t size, const SendCallback* callback = nullptr);
+    void start_receive(const ReceiveCallback* callback = nullptr);
+    void close(const CloseCallback* callback = nullptr);
     void shutdown();
-    void send(const byte* data, size_t size);
-    void receive();
     bool is_open() const;
     byte* get_recv_buffer();
     tcp::socket& socket();

@@ -10,23 +10,32 @@
     <Filter Include="network">
       <UniqueIdentifier>{df8b2053-2381-41a6-89fb-2271f81b3c7a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="network\common">
-      <UniqueIdentifier>{b766fa07-06cc-4c86-9b57-1f1d4ffec798}</UniqueIdentifier>
-    </Filter>
     <Filter Include="protocol">
       <UniqueIdentifier>{6b720557-6133-4f4e-92be-86254e542b4e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="util">
-      <UniqueIdentifier>{3e112152-2b6d-4b4e-890a-a17403eff030}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="network\common\asio_error">
-      <UniqueIdentifier>{c7047036-3308-4fd4-9458-b60cd0f8b45f}</UniqueIdentifier>
     </Filter>
     <Filter Include="protocol\protobuf">
       <UniqueIdentifier>{d6578cf9-def7-49ed-bf4f-2c85d809ce00}</UniqueIdentifier>
     </Filter>
     <Filter Include="network\http">
       <UniqueIdentifier>{f93fb8ed-f98e-492f-b5ca-d18e3a1d0335}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="framework">
+      <UniqueIdentifier>{161223a1-2e68-4ee3-92d5-74e62e781332}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\tcp">
+      <UniqueIdentifier>{6b28f3ba-8ebb-4f25-b178-504a51df6289}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\tcp\tcp_server">
+      <UniqueIdentifier>{eb313512-13cb-46a7-8c26-9eb181ac6ed1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\http\http_client">
+      <UniqueIdentifier>{2b350100-bc36-43fa-814b-ad2912401ba1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\network_common">
+      <UniqueIdentifier>{b766fa07-06cc-4c86-9b57-1f1d4ffec798}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\network_common\asio_error">
+      <UniqueIdentifier>{c7047036-3308-4fd4-9458-b60cd0f8b45f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -45,18 +54,6 @@
     <ClInclude Include="stdafx.h">
       <Filter>main</Filter>
     </ClInclude>
-    <ClInclude Include="acceptor.h">
-      <Filter>network</Filter>
-    </ClInclude>
-    <ClInclude Include="io_service.h">
-      <Filter>network</Filter>
-    </ClInclude>
-    <ClInclude Include="tcp_connection.h">
-      <Filter>network</Filter>
-    </ClInclude>
-    <ClInclude Include="tcp_server.h">
-      <Filter>network</Filter>
-    </ClInclude>
     <ClInclude Include="opcodes.h">
       <Filter>protocol</Filter>
     </ClInclude>
@@ -64,19 +61,13 @@
       <Filter>protocol</Filter>
     </ClInclude>
     <ClInclude Include="local_free_on_destruction.hpp">
-      <Filter>network\common\asio_error</Filter>
+      <Filter>network\network_common\asio_error</Filter>
     </ClInclude>
     <ClInclude Include="common.h">
       <Filter>base</Filter>
     </ClInclude>
-    <ClInclude Include="object_pool.hpp">
-      <Filter>util</Filter>
-    </ClInclude>
-    <ClInclude Include="tcp_client.h">
-      <Filter>network</Filter>
-    </ClInclude>
     <ClInclude Include="network_common.h">
-      <Filter>network\common</Filter>
+      <Filter>network\network_common</Filter>
     </ClInclude>
     <ClInclude Include="protobuf.h">
       <Filter>protocol</Filter>
@@ -96,37 +87,58 @@
     <ClInclude Include="protocol\20002_C2SQQLoginCaptchaConfirm.pb.h">
       <Filter>protocol\protobuf</Filter>
     </ClInclude>
-    <ClInclude Include="http_request.h">
-      <Filter>network\http</Filter>
-    </ClInclude>
-    <ClInclude Include="header_collection.h">
-      <Filter>network\http</Filter>
-    </ClInclude>
     <ClInclude Include="http_request_header.h">
       <Filter>network\http</Filter>
     </ClInclude>
+    <ClInclude Include="http_message_header.h">
+      <Filter>network\http</Filter>
+    </ClInclude>
+    <ClInclude Include="message_header.h">
+      <Filter>network\http</Filter>
+    </ClInclude>
+    <ClInclude Include="ascii.h">
+      <Filter>framework</Filter>
+    </ClInclude>
+    <ClInclude Include="http_request.h">
+      <Filter>network\http\http_client</Filter>
+    </ClInclude>
+    <ClInclude Include="acceptor.h">
+      <Filter>network\tcp\tcp_server</Filter>
+    </ClInclude>
+    <ClInclude Include="io_service.h">
+      <Filter>network\tcp\tcp_server</Filter>
+    </ClInclude>
     <ClInclude Include="socket.h">
-      <Filter>network</Filter>
+      <Filter>network\tcp</Filter>
+    </ClInclude>
+    <ClInclude Include="tcp_client.h">
+      <Filter>network\tcp</Filter>
+    </ClInclude>
+    <ClInclude Include="tcp_connection.h">
+      <Filter>network\tcp</Filter>
+    </ClInclude>
+    <ClInclude Include="tcp_server.h">
+      <Filter>network\tcp\tcp_server</Filter>
+    </ClInclude>
+    <ClInclude Include="name_value_collection.h">
+      <Filter>framework</Filter>
+    </ClInclude>
+    <ClInclude Include="object_pool.hpp">
+      <Filter>framework</Filter>
+    </ClInclude>
+    <ClInclude Include="http_client_session.h">
+      <Filter>network\http\http_client</Filter>
+    </ClInclude>
+    <ClInclude Include="http_session.h">
+      <Filter>network\http\http_client</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>main</Filter>
     </ClCompile>
-    <ClCompile Include="acceptor.cpp">
-      <Filter>network</Filter>
-    </ClCompile>
-    <ClCompile Include="tcp_connection.cpp">
-      <Filter>network</Filter>
-    </ClCompile>
-    <ClCompile Include="tcp_server.cpp">
-      <Filter>network</Filter>
-    </ClCompile>
     <ClCompile Include="error_code.cpp">
-      <Filter>network\common\asio_error</Filter>
-    </ClCompile>
-    <ClCompile Include="tcp_client.cpp">
-      <Filter>network</Filter>
+      <Filter>network\network_common\asio_error</Filter>
     </ClCompile>
     <ClCompile Include="protocol\10001_S2CRobotLoginRsp.pb.cc">
       <Filter>protocol\protobuf</Filter>
@@ -143,8 +155,38 @@
     <ClCompile Include="protocol\10000_C2SRobotLoginReq.pb.cc">
       <Filter>protocol\protobuf</Filter>
     </ClCompile>
+    <ClCompile Include="http_message_header.cpp">
+      <Filter>network\http</Filter>
+    </ClCompile>
+    <ClCompile Include="message_header.cpp">
+      <Filter>network\http</Filter>
+    </ClCompile>
+    <ClCompile Include="http_request.cpp">
+      <Filter>network\http\http_client</Filter>
+    </ClCompile>
+    <ClCompile Include="acceptor.cpp">
+      <Filter>network\tcp\tcp_server</Filter>
+    </ClCompile>
     <ClCompile Include="socket.cpp">
-      <Filter>network</Filter>
+      <Filter>network\tcp</Filter>
+    </ClCompile>
+    <ClCompile Include="tcp_client.cpp">
+      <Filter>network\tcp</Filter>
+    </ClCompile>
+    <ClCompile Include="tcp_connection.cpp">
+      <Filter>network\tcp</Filter>
+    </ClCompile>
+    <ClCompile Include="tcp_server.cpp">
+      <Filter>network\tcp\tcp_server</Filter>
+    </ClCompile>
+    <ClCompile Include="name_value_collection.cpp">
+      <Filter>framework</Filter>
+    </ClCompile>
+    <ClCompile Include="ascii.cpp">
+      <Filter>framework</Filter>
+    </ClCompile>
+    <ClCompile Include="http_session.cpp">
+      <Filter>network\http\http_client</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

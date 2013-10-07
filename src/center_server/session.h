@@ -47,7 +47,7 @@ public:
             message.SerializeToArray(message_data, messageSize);
             packet_buffer.append(message_data, messageSize);
 
-            _connection->write(packet_buffer.buffer(), packet_buffer.size());
+            _connection->writeAsync(packet_buffer.buffer(), packet_buffer.size());
 
             SAFE_DELETE_ARR(message_data);
         }

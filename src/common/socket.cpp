@@ -17,10 +17,36 @@ Socket::~Socket()
     std::cout << "Socket Destroyed." << std::endl;
 }
 
-void Socket::connect(const std::string& host, uint16 port)
+bool Socket::connect(const std::string& host, uint16 port)
 {
     if (is_open())
         shutdown();
+
+    boost::asio::ip::tcp::endpoint endpoint(
+        boost::asio::ip::address::from_string(host), port);
+
+    boost::system::error_code ec;
+    _socket.connect(endpoint, ec);
+    return (ec == 0);
+}
+
+size_t Socket::send(const byte* data, size_t size)
+{
+    return _socket.send(boost::asio::buffer(data, size));
+}
+
+size_t Socket::receive(byte* data, size_t size)
+{
+    return _socket.receive(boost::asio::buffer(data, size));
+}
+
+void Socket::start_connect(const std::string& host, uint16 port, const ConnectedCallback* callback/* = nullptr*/)
+{
+    if (is_open())
+        shutdown();
+
+    if (callback != nullptr)
+        set_connected_callback(*callback);
 
     boost::asio::ip::tcp::endpoint endpoint(
         boost::asio::ip::address::from_string(host), port);
@@ -30,18 +56,16 @@ void Socket::connect(const std::string& host, uint16 port)
         boost::bind(&Socket::handle_connected, this, boost::asio::placeholders::error));
 }
 
-void Socket::close()
-{
-    _socket.close();
-}
-
-void Socket::send(const byte* data, size_t size)
+void Socket::start_send(const byte* data, size_t size, const SendCallback* callback/* = nullptr*/)
 {
     if (data == nullptr || size == 0)
     {
         std::cout << "empty data." << std::endl;
         return;
     }
+
+    if (callback != nullptr)
+        set_send_callback(*callback);
 
     boost::asio::async_write(
         _socket,
@@ -57,8 +81,11 @@ void Socket::send(const byte* data, size_t size)
         );
 }
 
-void Socket::receive()
+void Socket::start_receive(const ReceiveCallback* callback/* = nullptr*/)
 {
+    if (callback != nullptr)
+        set_receive_callback(*callback);
+
     _socket.async_read_some(
         boost::asio::buffer(_recv_buffer),
         _strand.wrap(
@@ -70,6 +97,15 @@ void Socket::receive()
         )
         )
         );
+}
+
+
+void Socket::close(const CloseCallback* callback/* = nullptr*/)
+{
+    if (callback != nullptr)
+        set_close_callback(*callback);
+
+    _socket.close();
 }
 
 void Socket::shutdown()

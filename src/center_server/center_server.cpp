@@ -3,6 +3,8 @@
 
 #include "stdafx.h"
 #include "asio_service_deamon.h"
+#include "ascii.h"
+#include "socket.h"
 
 int main(int argc, char* argv[])
 {

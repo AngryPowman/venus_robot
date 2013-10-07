@@ -31,15 +31,15 @@ void TcpConnection::setInetAddress(const InetAddress& inetAddress)
     _inetAddress = inetAddress;
 }
 
-void TcpConnection::connect()
+void TcpConnection::connectAsync()
 {
-    _socket->connect(_inetAddress.host(), _inetAddress.port());
+    _socket->start_connect(_inetAddress.host(), _inetAddress.port());
 }
 
-void TcpConnection::connect(const InetAddress& inetAddress)
+void TcpConnection::connectAsync(const InetAddress& inetAddress)
 {
     setInetAddress(inetAddress);
-    _socket->connect(_inetAddress.host(), _inetAddress.port());
+    connectAsync();
 }
 
 void TcpConnection::shutdown()
@@ -52,12 +52,12 @@ void TcpConnection::close()
     _socket->close();
 }
 
-void TcpConnection::write(const byte* data, size_t size)
+void TcpConnection::writeAsync(const byte* data, size_t size)
 {
-    _socket->send(data, size);
+    _socket->start_send(data, size);
 }
 
-void TcpConnection::write(const uint32& opcode, const byte* message_data, size_t message_size)
+void TcpConnection::writeAsync(const uint32& opcode, const byte* message_data, size_t message_size)
 {
     if (message_data == nullptr || message_size == 0)
     {
@@ -70,12 +70,12 @@ void TcpConnection::write(const uint32& opcode, const byte* message_data, size_t
     buffer << opcode;
     buffer.append(message_data, message_size);
 
-    write(buffer.buffer(), buffer.size());
+    writeAsync(buffer.buffer(), buffer.size());
 }
 
-void TcpConnection::read()
+void TcpConnection::readAsync()
 {
-    _socket->receive();
+    _socket->start_receive();
 }
 
 tcp::socket& TcpConnection::socket()
@@ -112,7 +112,7 @@ void TcpConnection::on_connected()
 {
     std::cout << "connection has been connected." << std::endl;
 
-    read();
+    readAsync();
     if (_connectedCallback)
         _connectedCallback(shared_from_this());
 }
@@ -134,7 +134,7 @@ void TcpConnection::on_write(
 
 void TcpConnection::on_read(const byte* data, size_t bytes_transferred)
 {
-    this->read();
+    readAsync();
 
     size_t bodyLen = 0;
 

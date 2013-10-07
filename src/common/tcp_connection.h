@@ -28,13 +28,13 @@ public:
         return _socket->handle();
     }
     void setInetAddress(const InetAddress& inetAddress);
-    void connect();
-    void connect(const InetAddress& inetAddress);
+    void connectAsync();
+    void connectAsync(const InetAddress& inetAddress);
     void shutdown();
     void close();
-    void write(const byte* data, size_t size);
-    void write(const uint32& opcode, const byte* data, size_t size);
-    void read();
+    void writeAsync(const byte* data, size_t size);
+    void writeAsync(const uint32& opcode, const byte* data, size_t size);
+    void readAsync();
     tcp::socket& socket();
     bool is_open();
 
