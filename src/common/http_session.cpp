@@ -1,46 +1,31 @@
 #include <cstring>
 #include "http_session.h"
 
-using Poco::TimeoutException;
+//using Poco::TimeoutException;
 
-HTTPSession::HTTPSession()
-    : _pBuffer(0),
-    _pCurrent(0),
-    _pEnd(0),
-    _keepAlive(false),
-    _timeout(HTTP_DEFAULT_TIMEOUT),
-    _pException(0)
-{
-}
-
-
-HTTPSession::HTTPSession(const StreamSocket& socket):
-    _socket(socket),
+HTTPSession::HTTPSession(IOService& service) : 
+    _socket(service),
     _pBuffer(0),
     _pCurrent(0),
     _pEnd(0),
     _keepAlive(false),
-    _timeout(HTTP_DEFAULT_TIMEOUT),
-    _pException(0)
+    _timeout(HTTP_DEFAULT_TIMEOUT)
 {
 }
 
-
-HTTPSession::HTTPSession(const StreamSocket& socket, bool keepAlive):
-    _socket(socket),
+HTTPSession::HTTPSession(IOService& service, bool keepAlive):
+    _socket(service),
     _pBuffer(0),
     _pCurrent(0),
     _pEnd(0),
     _keepAlive(keepAlive),
-    _timeout(HTTP_DEFAULT_TIMEOUT),
-    _pException(0)
+    _timeout(HTTP_DEFAULT_TIMEOUT)
 {
 }
 
 
 HTTPSession::~HTTPSession()
 {
-    if (_pBuffer) HTTPBufferAllocator::deallocate(_pBuffer, HTTPBufferAllocator::BUFFER_SIZE);
     try
     {
         close();
@@ -48,7 +33,6 @@ HTTPSession::~HTTPSession()
     catch (...)
     {
     }
-    delete _pException;
 }
 
 
@@ -58,37 +42,12 @@ void HTTPSession::setKeepAlive(bool keepAlive)
 }
 
 
-void HTTPSession::setTimeout(const Poco::Timespan& timeout)
+void HTTPSession::setTimeout(const Venus::Timespan& timeout)
 {
     _timeout = timeout;
 }
 
-
-int HTTPSession::get()
-{
-    if (_pCurrent == _pEnd)
-        refill();
-
-    if (_pCurrent < _pEnd)
-        return *_pCurrent++;
-    else
-        return std::char_traits<char>::eof();
-}
-
-
-int HTTPSession::peek()
-{
-    if (_pCurrent == _pEnd)
-        refill();
-
-    if (_pCurrent < _pEnd)
-        return *_pCurrent;
-    else
-        return std::char_traits<char>::eof();
-}
-
-
-int HTTPSession::read(char* buffer, std::streamsize length)
+int HTTPSession::read(byte* buffer, std::streamsize length)
 {
     if (_pCurrent < _pEnd)
     {
@@ -102,60 +61,25 @@ int HTTPSession::read(char* buffer, std::streamsize length)
 }
 
 
-int HTTPSession::write(const char* buffer, std::streamsize length)
+int HTTPSession::write(const byte* buffer, std::streamsize length)
 {
-    try
-    {
-        return _socket.sendBytes(buffer, (int) length);
-    }
-    catch (Poco::Exception& exc)
-    {
-        setException(exc);
-        throw;
-    }
+    return _socket.send(buffer, (int) length);
 }
 
-
-int HTTPSession::receive(char* buffer, int length)
+int HTTPSession::receive(byte* buffer, int length)
 {
-    try
-    {
-        return _socket.receiveBytes(buffer, length);
-    }
-    catch (Poco::Exception& exc)
-    {
-        setException(exc);
-        throw;
-    }
-}
-
-
-void HTTPSession::refill()
-{
-    if (!_pBuffer)
-    {
-        _pBuffer = HTTPBufferAllocator::allocate(HTTPBufferAllocator::BUFFER_SIZE);
-    }
-    _pCurrent = _pEnd = _pBuffer;
-    int n = receive(_pBuffer, HTTPBufferAllocator::BUFFER_SIZE);
-    _pEnd += n;
+    return _socket.receive(buffer, length);
 }
 
 
 bool HTTPSession::connected() const
 {
-    return _socket.impl()->initialized();
+    return _socket.is_open();
 }
 
-
-void HTTPSession::connect(const SocketAddress& address)
+bool HTTPSession::connect(const InetAddress& address)
 {
-    _socket.connect(address, _timeout);
-    _socket.setReceiveTimeout(_timeout);
-    _socket.setNoDelay(true);
-    // There may be leftover data from a previous (failed) request in the buffer,
-    // so we clear it.
-    _pCurrent = _pEnd = _pBuffer;
+    return _socket.connect(address.host(), address.port());
 }
 
 
@@ -169,32 +93,4 @@ void HTTPSession::abort()
 void HTTPSession::close()
 {
     _socket.close();
-}
-
-
-void HTTPSession::setException(const Poco::Exception& exc)
-{
-    delete _pException;
-    _pException = exc.clone();
-}
-
-
-StreamSocket HTTPSession::detachSocket()
-{
-    StreamSocket oldSocket(_socket);
-    StreamSocket newSocket;
-    _socket = newSocket;
-    return oldSocket;
-}
-
-
-void HTTPSession::attachSocket(const StreamSocket& socket)
-{
-    _socket = socket;
-}
-
-
-void HTTPSession::attachSessionData(const Poco::Any& data)
-{
-    _data = data;
 }

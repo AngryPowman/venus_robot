@@ -132,6 +132,15 @@
     <ClInclude Include="http_session.h">
       <Filter>network\http\http_client</Filter>
     </ClInclude>
+    <ClInclude Include="any.h">
+      <Filter>framework</Filter>
+    </ClInclude>
+    <ClInclude Include="time_stamp.h">
+      <Filter>framework</Filter>
+    </ClInclude>
+    <ClInclude Include="time_span.h">
+      <Filter>framework</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -187,6 +196,12 @@
     </ClCompile>
     <ClCompile Include="http_session.cpp">
       <Filter>network\http\http_client</Filter>
+    </ClCompile>
+    <ClCompile Include="time_stamp.cpp">
+      <Filter>framework</Filter>
+    </ClCompile>
+    <ClCompile Include="time_span.cpp">
+      <Filter>framework</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

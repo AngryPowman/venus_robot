@@ -82,7 +82,7 @@ void TcpServer::newConnectionCallback(const TcpConnectionPtr& connection)
 
     tcp::socket& socket = connection->socket();
     std::string remote_address = socket.remote_endpoint().address().to_string();
-    uint16_t remote_port = socket.remote_endpoint().port();
+    uint16 remote_port = socket.remote_endpoint().port();
     InetAddress peerAddress(remote_address, remote_port);
 
     //callbacks

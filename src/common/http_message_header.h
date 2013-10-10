@@ -1,10 +1,11 @@
 #ifndef __HTTP_MESSAGE_HEADER_H__
 #define __HTTP_MESSAGE_HEADER_H__
 
+#include <boost/noncopyable.hpp>
 #include "message_header.h"
 
 class HttpMessageHeader
-    : public MessageHeader
+    : public MessageHeader, public boost::noncopyable
 {
 public:
     void setVersion(const std::string& version);
@@ -47,9 +48,6 @@ protected:
     virtual ~HttpMessageHeader();
 
 private:
-    HttpMessageHeader(const HttpMessageHeader&);
-    HttpMessageHeader& operator = (const HttpMessageHeader&);
-
     std::string _version;
 };
 

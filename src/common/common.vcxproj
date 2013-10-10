@@ -91,17 +91,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="acceptor.h" />
+    <ClInclude Include="any.h" />
     <ClInclude Include="ascii.h" />
     <ClInclude Include="byte_buffer.h" />
     <ClInclude Include="endian.h" />
     <ClInclude Include="http_client_session.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="http_message_header.h" />
     <ClInclude Include="http_request.h" />
     <ClInclude Include="http_request_header.h" />
     <ClInclude Include="http_session.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="inet_address.h" />
     <ClInclude Include="io_service.h" />
@@ -125,15 +126,22 @@
     <ClInclude Include="tcp_client.h" />
     <ClInclude Include="tcp_connection.h" />
     <ClInclude Include="tcp_server.h" />
+    <ClInclude Include="time_span.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="time_stamp.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="acceptor.cpp" />
     <ClCompile Include="ascii.cpp" />
     <ClCompile Include="error_code.cpp" />
+    <ClCompile Include="http_client_session.cpp" />
     <ClCompile Include="http_message_header.cpp" />
     <ClCompile Include="http_request.cpp" />
     <ClCompile Include="http_session.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="message_header.cpp" />
     <ClCompile Include="name_value_collection.cpp" />
@@ -150,6 +158,12 @@
     <ClCompile Include="tcp_client.cpp" />
     <ClCompile Include="tcp_connection.cpp" />
     <ClCompile Include="tcp_server.cpp" />
+    <ClCompile Include="time_span.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="time_stamp.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
