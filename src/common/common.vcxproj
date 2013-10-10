@@ -95,20 +95,10 @@
     <ClInclude Include="ascii.h" />
     <ClInclude Include="byte_buffer.h" />
     <ClInclude Include="endian.h" />
-    <ClInclude Include="http_client_session.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="http_message_header.h" />
-    <ClInclude Include="http_request.h" />
-    <ClInclude Include="http_request_header.h" />
-    <ClInclude Include="http_session.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="inet_address.h" />
     <ClInclude Include="io_service.h" />
     <ClInclude Include="common.h" />
     <ClInclude Include="local_free_on_destruction.hpp" />
-    <ClInclude Include="message_header.h" />
     <ClInclude Include="name_value_collection.h" />
     <ClInclude Include="network_common.h" />
     <ClInclude Include="object_pool.hpp" />
@@ -137,13 +127,6 @@
     <ClCompile Include="acceptor.cpp" />
     <ClCompile Include="ascii.cpp" />
     <ClCompile Include="error_code.cpp" />
-    <ClCompile Include="http_client_session.cpp" />
-    <ClCompile Include="http_message_header.cpp" />
-    <ClCompile Include="http_request.cpp" />
-    <ClCompile Include="http_session.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="message_header.cpp" />
     <ClCompile Include="name_value_collection.cpp" />
     <ClCompile Include="protocol\10000_C2SRobotLoginReq.pb.cc" />
     <ClCompile Include="protocol\10001_S2CRobotLoginRsp.pb.cc" />
