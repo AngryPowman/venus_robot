@@ -65,3 +65,4 @@ obj/
 /3rdparty/poco/lib/WinTestRunnerd.exp
 /3rdparty/poco/lib/WinTestRunnerd.lib
 /3rdparty/poco/Data/MySQL/*.opensdf
+/src/center_server/Release
