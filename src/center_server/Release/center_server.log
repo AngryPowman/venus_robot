@@ -1,5 +1,32 @@
-﻿  stdafx.cpp
-  asio_service_deamon.cpp
-  center_server.cpp
-  opcodes_handler.cpp
-LINK : fatal error LNK1181: 无法打开输入文件“_common.lib”
+﻿     正在创建库 E:\Desktop\venus_robot\src\Release\center_server.lib 和对象 E:\Desktop\venus_robot\src\Release\center_server.exp
+  正在生成代码
+  已完成代码的生成
+_common.lib(stringprintf.obj) : warning LNK4099: 未找到 PDB“vc110.pdb”(使用“_common.lib(stringprintf.obj)”或在“E:\Desktop\venus_robot\src\Release\vc110.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+_common.lib(zero_copy_stream_impl_lite.obj) : warning LNK4099: 未找到 PDB“vc110.pdb”(使用“_common.lib(zero_copy_stream_impl_lite.obj)”或在“E:\Desktop\venus_robot\src\Release\vc110.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+_common.lib(zero_copy_stream_impl.obj) : warning LNK4099: 未找到 PDB“vc110.pdb”(使用“_common.lib(zero_copy_stream_impl.obj)”或在“E:\Desktop\venus_robot\src\Release\vc110.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+_common.lib(zero_copy_stream.obj) : warning LNK4099: 未找到 PDB“vc110.pdb”(使用“_common.lib(zero_copy_stream.obj)”或在“E:\Desktop\venus_robot\src\Release\vc110.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+_common.lib(wire_format_lite.obj) : warning LNK4099: 未找到 PDB“vc110.pdb”(使用“_common.lib(wire_format_lite.obj)”或在“E:\Desktop\venus_robot\src\Release\vc110.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+_common.lib(wire_format.obj) : warning LNK4099: 未找到 PDB“vc110.pdb”(使用“_common.lib(wire_format.obj)”或在“E:\Desktop\venus_robot\src\Release\vc110.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+_common.lib(unknown_field_set.obj) : warning LNK4099: 未找到 PDB“vc110.pdb”(使用“_common.lib(unknown_field_set.obj)”或在“E:\Desktop\venus_robot\src\Release\vc110.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+_common.lib(tokenizer.obj) : warning LNK4099: 未找到 PDB“vc110.pdb”(使用“_common.lib(tokenizer.obj)”或在“E:\Desktop\venus_robot\src\Release\vc110.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+_common.lib(text_format.obj) : warning LNK4099: 未找到 PDB“vc110.pdb”(使用“_common.lib(text_format.obj)”或在“E:\Desktop\venus_robot\src\Release\vc110.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+_common.lib(substitute.obj) : warning LNK4099: 未找到 PDB“vc110.pdb”(使用“_common.lib(substitute.obj)”或在“E:\Desktop\venus_robot\src\Release\vc110.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+_common.lib(strutil.obj) : warning LNK4099: 未找到 PDB“vc110.pdb”(使用“_common.lib(strutil.obj)”或在“E:\Desktop\venus_robot\src\Release\vc110.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+_common.lib(structurally_valid.obj) : warning LNK4099: 未找到 PDB“vc110.pdb”(使用“_common.lib(structurally_valid.obj)”或在“E:\Desktop\venus_robot\src\Release\vc110.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+_common.lib(repeated_field.obj) : warning LNK4099: 未找到 PDB“vc110.pdb”(使用“_common.lib(repeated_field.obj)”或在“E:\Desktop\venus_robot\src\Release\vc110.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+_common.lib(reflection_ops.obj) : warning LNK4099: 未找到 PDB“vc110.pdb”(使用“_common.lib(reflection_ops.obj)”或在“E:\Desktop\venus_robot\src\Release\vc110.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+_common.lib(atomicops_internals_x86_msvc.obj) : warning LNK4099: 未找到 PDB“vc110.pdb”(使用“_common.lib(atomicops_internals_x86_msvc.obj)”或在“E:\Desktop\venus_robot\src\Release\vc110.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+_common.lib(once.obj) : warning LNK4099: 未找到 PDB“vc110.pdb”(使用“_common.lib(once.obj)”或在“E:\Desktop\venus_robot\src\Release\vc110.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+_common.lib(message_lite.obj) : warning LNK4099: 未找到 PDB“vc110.pdb”(使用“_common.lib(message_lite.obj)”或在“E:\Desktop\venus_robot\src\Release\vc110.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+_common.lib(message.obj) : warning LNK4099: 未找到 PDB“vc110.pdb”(使用“_common.lib(message.obj)”或在“E:\Desktop\venus_robot\src\Release\vc110.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+_common.lib(generated_message_util.obj) : warning LNK4099: 未找到 PDB“vc110.pdb”(使用“_common.lib(generated_message_util.obj)”或在“E:\Desktop\venus_robot\src\Release\vc110.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+_common.lib(generated_message_reflection.obj) : warning LNK4099: 未找到 PDB“vc110.pdb”(使用“_common.lib(generated_message_reflection.obj)”或在“E:\Desktop\venus_robot\src\Release\vc110.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+_common.lib(extension_set_heavy.obj) : warning LNK4099: 未找到 PDB“vc110.pdb”(使用“_common.lib(extension_set_heavy.obj)”或在“E:\Desktop\venus_robot\src\Release\vc110.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+_common.lib(extension_set.obj) : warning LNK4099: 未找到 PDB“vc110.pdb”(使用“_common.lib(extension_set.obj)”或在“E:\Desktop\venus_robot\src\Release\vc110.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+_common.lib(dynamic_message.obj) : warning LNK4099: 未找到 PDB“vc110.pdb”(使用“_common.lib(dynamic_message.obj)”或在“E:\Desktop\venus_robot\src\Release\vc110.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+_common.lib(descriptor_database.obj) : warning LNK4099: 未找到 PDB“vc110.pdb”(使用“_common.lib(descriptor_database.obj)”或在“E:\Desktop\venus_robot\src\Release\vc110.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+_common.lib(descriptor.pb.obj) : warning LNK4099: 未找到 PDB“vc110.pdb”(使用“_common.lib(descriptor.pb.obj)”或在“E:\Desktop\venus_robot\src\Release\vc110.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+_common.lib(descriptor.obj) : warning LNK4099: 未找到 PDB“vc110.pdb”(使用“_common.lib(descriptor.obj)”或在“E:\Desktop\venus_robot\src\Release\vc110.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+_common.lib(common.obj) : warning LNK4099: 未找到 PDB“vc110.pdb”(使用“_common.lib(common.obj)”或在“E:\Desktop\venus_robot\src\Release\vc110.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+_common.lib(coded_stream.obj) : warning LNK4099: 未找到 PDB“vc110.pdb”(使用“_common.lib(coded_stream.obj)”或在“E:\Desktop\venus_robot\src\Release\vc110.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+  center_server.vcxproj -> E:\Desktop\venus_robot\src\Release\center_server.exe

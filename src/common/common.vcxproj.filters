@@ -81,9 +81,6 @@
     <ClInclude Include="protocol\20002_C2SQQLoginCaptchaConfirm.pb.h">
       <Filter>protocol\protobuf</Filter>
     </ClInclude>
-    <ClInclude Include="ascii.h">
-      <Filter>framework</Filter>
-    </ClInclude>
     <ClInclude Include="acceptor.h">
       <Filter>network\tcp\tcp_server</Filter>
     </ClInclude>
@@ -102,19 +99,7 @@
     <ClInclude Include="tcp_server.h">
       <Filter>network\tcp\tcp_server</Filter>
     </ClInclude>
-    <ClInclude Include="name_value_collection.h">
-      <Filter>framework</Filter>
-    </ClInclude>
     <ClInclude Include="object_pool.hpp">
-      <Filter>framework</Filter>
-    </ClInclude>
-    <ClInclude Include="any.h">
-      <Filter>framework</Filter>
-    </ClInclude>
-    <ClInclude Include="time_stamp.h">
-      <Filter>framework</Filter>
-    </ClInclude>
-    <ClInclude Include="time_span.h">
       <Filter>framework</Filter>
     </ClInclude>
   </ItemGroup>
@@ -154,18 +139,6 @@
     </ClCompile>
     <ClCompile Include="tcp_server.cpp">
       <Filter>network\tcp\tcp_server</Filter>
-    </ClCompile>
-    <ClCompile Include="name_value_collection.cpp">
-      <Filter>framework</Filter>
-    </ClCompile>
-    <ClCompile Include="ascii.cpp">
-      <Filter>framework</Filter>
-    </ClCompile>
-    <ClCompile Include="time_stamp.cpp">
-      <Filter>framework</Filter>
-    </ClCompile>
-    <ClCompile Include="time_span.cpp">
-      <Filter>framework</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
