@@ -6,12 +6,10 @@
 #include "ascii.h"
 #include "socket.h"
 
-#include <poco/Net/HTTPClientSession.h>
 using namespace Poco::Net;
 
 int main(int argc, char* argv[])
 {
-    HTTPClientSession session("123.125.114.144", 80);
 
     try
     {
